@@ -1,12 +1,14 @@
 # bpi-r4-openwrt-builder
  
- git clone https://github.com/woziwrt/bpi-r4-openwrt-builder.git
- chmod 776 -R bpi-r4-openwrt-builder
- cd bpi-r4-openwrt-builder
+ >git clone ht<span>tps://github.com/woziwrt/bpi-r4-openwrt-builder.git
  
- BEFORE RUNNING BUILDER READ ALL COMMENTS IN THE SCRIPT
+ >chmod 776 -R bpi-r4-openwrt-builder
  
- ./bpi-r4-openwrt-builder.sh
+ >cd bpi-r4-openwrt-builder
+ 
+ BEFORE RUNNING BUILDER READ ALL COMMENTS IN THE SCRIPT !
+ 
+ >./bpi-r4-openwrt-builder.sh
  
  
  Notes for those who want to create their own experimental releases:
