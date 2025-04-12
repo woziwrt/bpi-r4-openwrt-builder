@@ -1,0 +1,19 @@
+--- a/mt7996/eeprom.c	2025-02-05 13:26:55.549648005 +0100
+--- b/mt7996/eeprom.c	2025-02-05 13:28:51.306731363 +0100
+@@ -368,7 +368,15 @@
+ 				goto out;
+ 			}
+ 		}
+-	}
++
++		/* read tx_power values from fw */
++		u8 *eeprom = dev->mt76.eeprom.data;
++		if (!eeprom[MT_EE_TX0_POWER_2G] || !eeprom[MT_EE_TX0_POWER_5G] || !eeprom[MT_EE_TX0_POWER_6G] ) {
++			use_default = true;
++			goto out;
++		}	
++
++}
+ 
+ out:
+ 	return mt7996_eeprom_check_or_use_default(dev, use_default);

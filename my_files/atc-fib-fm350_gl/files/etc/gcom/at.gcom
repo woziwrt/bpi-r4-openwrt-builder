@@ -1,0 +1,11 @@
+# run AT-command from environment
+opengt
+ set com 115200n81
+ set senddelay 0.02
+ waitquiet 1 0.2
+ flash 0.1
+
+:start
+ send $env("COMMAND")
+ send "^m"
+ exit 0
