@@ -11,17 +11,16 @@
 #
 #*****************************************************************************
 
-
 rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout a51b1a98e026887ea4dd8f09a6fdc8138941e2ac; cd -;
+cd openwrt; git checkout d183d7bb7827a469f09bf77f2f22fd9d70ac0ed6; cd -;	#OpenWrt v24.10.1: adjust config defaults
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout d97c445b5a0a6848686d1811003f84ffb5d3d1bf; cd -;
+cd mtk-openwrt-feeds; git checkout 4216bd108c589eb35ac11bd094cc8163ddb4ebad; cd -;	#Fix issue of unexpected insmod mtkhnat log in MT76 SDK
 
-echo "d97c445" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "4216bd1" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 ### wireless-regdb modification - this remove all regdb wireless countries restrictions
 rm -rf openwrt/package/firmware/wireless-regdb/patches/*.*
