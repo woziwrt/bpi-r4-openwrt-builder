@@ -15,12 +15,15 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout d183d7bb7827a469f09bf77f2f22fd9d70ac0ed6; cd -;	#OpenWrt v24.10.1: adjust config defaults
+cd openwrt; git checkout a51b1a98e026887ea4dd8f09a6fdc8138941e2ac; cd -;		#build: bpf: fix LLVM tool paths with host toolchain
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 4216bd108c589eb35ac11bd094cc8163ddb4ebad; cd -;	#Fix issue of unexpected insmod mtkhnat log in MT76 SDK
+cd mtk-openwrt-feeds; git checkout 224e13c7ed18d3e46dc89b1d1a670e1bf5ee6c1a; cd -;	#Fix WED 2.0 WDMA TX hang issue
 
-echo "4216bd1" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "224e13c" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+
+#feeds modification
+#\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
 
 ### wireless-regdb modification - this remove all regdb wireless countries restrictions
 rm -rf openwrt/package/firmware/wireless-regdb/patches/*.*
@@ -33,6 +36,9 @@ rm -rf mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/
 
 ### tx_power patch - required for BE14 boards with defective eeprom flash
 \cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
+
+### change sku_idx
+\cp -r my_files/0184-wozi-fixup-mtk-hostapd-Add-txpower-vendor-command.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/network/services/hostapd/patches/0184-fixup-mtk-hostapd-Add-txpower-vendor-command.patch
 
 ### required & thermal zone 
 \cp -r my_files/1007-wozi-arch-arm64-dts-mt7988a-add-thermal-zone.patch mtk-openwrt-feeds/24.10/patches-base/
