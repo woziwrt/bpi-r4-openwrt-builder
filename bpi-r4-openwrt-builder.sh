@@ -23,7 +23,7 @@ cd mtk-openwrt-feeds; git checkout 224e13c7ed18d3e46dc89b1d1a670e1bf5ee6c1a; cd 
 echo "224e13c" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 #feeds modification
-#\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
+\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
 
 ### wireless-regdb modification - this remove all regdb wireless countries restrictions
 rm -rf openwrt/package/firmware/wireless-regdb/patches/*.*
