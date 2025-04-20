@@ -29,8 +29,8 @@ index f636b43d3..4838098f9 100644
  	conf->lpi_psd = 0;
 -	conf->sku_idx = 0;
 -	conf->lpi_sku_idx = 0;
-+	conf->sku_idx = 2;
-+	conf->lpi_sku_idx = 2;
++	conf->sku_idx = 0;
++	conf->lpi_sku_idx = 0;
  	conf->lpi_bcn_enhance = 0;
  
  	hostapd_set_and_check_bw320_offset(conf, 0);

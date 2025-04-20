@@ -18,9 +18,9 @@ git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git ope
 cd openwrt; git checkout a51b1a98e026887ea4dd8f09a6fdc8138941e2ac; cd -;		#build: bpf: fix LLVM tool paths with host toolchain
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 224e13c7ed18d3e46dc89b1d1a670e1bf5ee6c1a; cd -;	#Fix WED 2.0 WDMA TX hang issue
+cd mtk-openwrt-feeds; git checkout 3866a434c87ecae8a35546174adfccbd3294e0ef; cd -;	#Add MT7987 platform and MT7990 WiFi in 24.10 autobuild
 
-echo "224e13c" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "3866a43" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 #feeds modification
 \cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
@@ -32,7 +32,7 @@ rm -rf mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/
 \cp -r my_files/regdb.Makefile openwrt/package/firmware/wireless-regdb/Makefile
 
 ### jumbo frames support
-\cp -r my_files/750-mtk-eth-add-jumbo-frame-support-mt7998.patch openwrt/target/linux/mediatek/patches-6.6
+#\cp -r my_files/750-mtk-eth-add-jumbo-frame-support-mt7998.patch openwrt/target/linux/mediatek/patches-6.6
 
 ### tx_power patch - required for BE14 boards with defective eeprom flash
 \cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
