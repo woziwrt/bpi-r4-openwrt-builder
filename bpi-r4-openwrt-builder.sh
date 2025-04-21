@@ -37,9 +37,6 @@ rm -rf mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/
 ### tx_power patch - required for BE14 boards with defective eeprom flash
 \cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
-### change sku_idx
-\cp -r my_files/0184-wozi-fixup-mtk-hostapd-Add-txpower-vendor-command.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/network/services/hostapd/patches/0184-fixup-mtk-hostapd-Add-txpower-vendor-command.patch
-
 ### required & thermal zone 
 \cp -r my_files/1007-wozi-arch-arm64-dts-mt7988a-add-thermal-zone.patch mtk-openwrt-feeds/24.10/patches-base/
 
