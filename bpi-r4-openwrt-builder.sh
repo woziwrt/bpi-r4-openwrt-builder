@@ -15,15 +15,16 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout a51b1a98e026887ea4dd8f09a6fdc8138941e2ac; cd -;		#build: bpf: fix LLVM tool paths with host toolchain
+#cd openwrt; git checkout a51b1a98e026887ea4dd8f09a6fdc8138941e2ac; cd -;		#build: bpf: fix LLVM tool paths with host toolchain
+cd openwrt; git checkout d183d7bb7827a469f09bf77f2f22fd9d70ac0ed6; cd -;		#OpenWrt v24.10.1: adjust config defaults
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 3866a434c87ecae8a35546174adfccbd3294e0ef; cd -;	#Add MT7987 platform and MT7990 WiFi in 24.10 autobuild
+cd mtk-openwrt-feeds; git checkout bda457c4e85555ae14f7e9d1663b8b22e5fb1999; cd -;	#Refactor PPE entry deletion to prevent unexpected FORCE_TO_CPU packet
 
-echo "3866a43" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "bda457c" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 #feeds modification
-\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
+#\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
 
 ### wireless-regdb modification - this remove all regdb wireless countries restrictions
 rm -rf openwrt/package/firmware/wireless-regdb/patches/*.*
@@ -32,10 +33,13 @@ rm -rf mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/
 \cp -r my_files/regdb.Makefile openwrt/package/firmware/wireless-regdb/Makefile
 
 ### jumbo frames support
-#\cp -r my_files/750-mtk-eth-add-jumbo-frame-support-mt7998.patch openwrt/target/linux/mediatek/patches-6.6
+\cp -r my_files/750-mtk-eth-add-jumbo-frame-support-mt7998.patch openwrt/target/linux/mediatek/patches-6.6
 
 ### tx_power patch - required for BE14 boards with defective eeprom flash
 \cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
+
+### tx_power patch - by dan pawlik
+#\cp -r my_files/99999_tx_power_check_by dan_pawlik.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
 ### required & thermal zone 
 \cp -r my_files/1007-wozi-arch-arm64-dts-mt7988a-add-thermal-zone.patch mtk-openwrt-feeds/24.10/patches-base/
@@ -45,7 +49,7 @@ sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-f
 sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/autobuild_5.4_mac80211_release/mt7986_mac80211/.config
 
 cd openwrt
-bash ../mtk-openwrt-feeds/autobuild/unified/autobuild.sh filogic-mac80211-bpi-r4 log_file=make
+bash ../mtk-openwrt-feeds/autobuild/unified/autobuild.sh filogic-mac80211-mt7988_rfb-mt7996 log_file=make
 
 exit 0
 
