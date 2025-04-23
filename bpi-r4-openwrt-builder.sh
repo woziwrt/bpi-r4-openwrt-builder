@@ -19,9 +19,11 @@ git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git ope
 cd openwrt; git checkout d183d7bb7827a469f09bf77f2f22fd9d70ac0ed6; cd -;		#OpenWrt v24.10.1: adjust config defaults
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout bda457c4e85555ae14f7e9d1663b8b22e5fb1999; cd -;	#Refactor PPE entry deletion to prevent unexpected FORCE_TO_CPU packet
+#cd mtk-openwrt-feeds; git checkout bda457c4e85555ae14f7e9d1663b8b22e5fb1999; cd -;	#Refactor PPE entry deletion to prevent unexpected FORCE_TO_CPU packet
+#cd mtk-openwrt-feeds; git checkout a531147f5f888de40904290fe74cbcb6270d2c5a; cd -;	#fix BPI-R4 Lite NAND boot
+cd mtk-openwrt-feeds; git checkout b85b4973b24e86f41da573ff8e2ea5ee4fea1aaa; cd -;	#Update Patches for 202504 MP4.1 Release
 
-echo "bda457c" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "b85b497" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 #feeds modification
 #\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
@@ -36,10 +38,10 @@ rm -rf mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/
 \cp -r my_files/750-mtk-eth-add-jumbo-frame-support-mt7998.patch openwrt/target/linux/mediatek/patches-6.6
 
 ### tx_power patch - required for BE14 boards with defective eeprom flash
-\cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
+#\cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
 ### tx_power patch - by dan pawlik
-#\cp -r my_files/99999_tx_power_check_by dan_pawlik.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
+\cp -r my_files/99999_tx_power_check_by dan_pawlik.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
 ### required & thermal zone 
 \cp -r my_files/1007-wozi-arch-arm64-dts-mt7988a-add-thermal-zone.patch mtk-openwrt-feeds/24.10/patches-base/
