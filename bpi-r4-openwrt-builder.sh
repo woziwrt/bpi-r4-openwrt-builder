@@ -52,6 +52,11 @@ exit 0
 
 ########### After successful end of build #############
 
+## IMPORTANT NOTE !!!!!
+## Do not change Target Profile from Multiple devices to other  !!!
+## Do not remove MediaTek MT7988A rbf and MediaTek MT7988D rbf from Target Devices !!! 
+
+#################
 
 cd openwrt
 # Basic config for bpi-r4
