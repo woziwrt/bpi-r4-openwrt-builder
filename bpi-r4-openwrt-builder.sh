@@ -59,7 +59,7 @@ exit 0
 #################
 
 cd openwrt
-# Basic config for bpi-r4
+# Basic config
 \cp -r ../configs/rc1_ext_config .config
 
 
