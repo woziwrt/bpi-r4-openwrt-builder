@@ -21,7 +21,7 @@ git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
 cd mtk-openwrt-feeds; git checkout f1069990ce51165c1b3844cb3626c410885d7502; cd -;	#Refactor fit sign arguments
 
 #feeds modification
-#\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
+\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
 
 ### wireless-regdb modification - this remove all regdb wireless countries restrictions
 rm -rf openwrt/package/firmware/wireless-regdb/patches/*.*
