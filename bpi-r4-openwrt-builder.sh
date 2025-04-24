@@ -15,12 +15,13 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout d183d7bb7827a469f09bf77f2f22fd9d70ac0ed6; cd -;		#OpenWrt v24.10.1: adjust config defaults
+cd openwrt; git checkout 3a481ae21bdc504f7f0325151ee0cb4f25dfd2cd; cd -;		#toolchain: mold: add PKG_NAME to Makefile
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout b85b4973b24e86f41da573ff8e2ea5ee4fea1aaa; cd -;	#Update Patches for 202504 MP4.1 Release
+cd mtk-openwrt-feeds; git checkout f1069990ce51165c1b3844cb3626c410885d7502; cd -;	#Refactor fit sign arguments
 
-echo "b85b497" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+#feeds modification
+#\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
 
 ### wireless-regdb modification - this remove all regdb wireless countries restrictions
 rm -rf openwrt/package/firmware/wireless-regdb/patches/*.*
