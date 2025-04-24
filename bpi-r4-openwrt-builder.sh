@@ -15,18 +15,12 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-#cd openwrt; git checkout a51b1a98e026887ea4dd8f09a6fdc8138941e2ac; cd -;		#build: bpf: fix LLVM tool paths with host toolchain
 cd openwrt; git checkout d183d7bb7827a469f09bf77f2f22fd9d70ac0ed6; cd -;		#OpenWrt v24.10.1: adjust config defaults
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-#cd mtk-openwrt-feeds; git checkout bda457c4e85555ae14f7e9d1663b8b22e5fb1999; cd -;	#Refactor PPE entry deletion to prevent unexpected FORCE_TO_CPU packet
-#cd mtk-openwrt-feeds; git checkout a531147f5f888de40904290fe74cbcb6270d2c5a; cd -;	#fix BPI-R4 Lite NAND boot
 cd mtk-openwrt-feeds; git checkout b85b4973b24e86f41da573ff8e2ea5ee4fea1aaa; cd -;	#Update Patches for 202504 MP4.1 Release
 
 echo "b85b497" > mtk-openwrt-feeds/autobuild/unified/feed_revision
-
-#feeds modification
-#\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
 
 ### wireless-regdb modification - this remove all regdb wireless countries restrictions
 rm -rf openwrt/package/firmware/wireless-regdb/patches/*.*
@@ -61,10 +55,8 @@ exit 0
 
 cd openwrt
 # Basic config for bpi-r4
-\cp -r ../configs/bpi-r4_basic_config .config
+\cp -r ../configs/rc1_ext_config .config
 
-#Basic config for bpi-r4 poe
-#\cp -r ../configs/bpi-r4-poe_basic_config .config
 
 ###### Then you can add all required additional feeds/packages ######### 
 
