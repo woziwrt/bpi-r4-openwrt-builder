@@ -34,9 +34,10 @@ rm -rf mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/
 
 ### tx_power patch - required for BE14 boards with defective eeprom flash
 #\cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
+\cp -r my_files/99998_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
 ### tx_power patch - by dan pawlik
-\cp -r my_files/99999_tx_power_check_by dan_pawlik.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
+\cp -r my_files/99999_tx_zeros_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
 ### required & thermal zone 
 \cp -r my_files/1007-wozi-arch-arm64-dts-mt7988a-add-thermal-zone.patch mtk-openwrt-feeds/24.10/patches-base/
@@ -76,9 +77,13 @@ cd openwrt
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
-####### And finally configure whatever you want ##########
+####### And now configure whatever you want ##########
 
 make menuconfig
+
+####### If not using Snapshot put version config into .config #######
+# cat ../configs/version.config >> .config
+
 make -j$(nproc)
 
 
