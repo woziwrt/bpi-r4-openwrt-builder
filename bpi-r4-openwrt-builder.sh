@@ -18,7 +18,7 @@ git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git ope
 cd openwrt; git checkout 3a481ae21bdc504f7f0325151ee0cb4f25dfd2cd; cd -;		#toolchain: mold: add PKG_NAME to Makefile
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout f1069990ce51165c1b3844cb3626c410885d7502; cd -;	#Refactor fit sign arguments
+cd mtk-openwrt-feeds; git checkout 3a0f22af03943d350d18042eaea1aa0b8136d716; cd -;	#add handshake with wifi when eth send reset done to wifi
 
 #feeds modification
 \cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
@@ -36,7 +36,7 @@ rm -rf mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/
 #\cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
 ### tx_power patch - by dan pawlik
-\cp -r my_files/99999_tx_power_check_by dan_pawlik.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
+\cp -r my_files/99999_tx_power_check_by_dan_pawlik.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
 ### required & thermal zone 
 \cp -r my_files/1007-wozi-arch-arm64-dts-mt7988a-add-thermal-zone.patch mtk-openwrt-feeds/24.10/patches-base/
@@ -61,7 +61,7 @@ exit 0
 
 cd openwrt
 # Basic config
-\cp -r ../configs/rc1_ext_config .config
+\cp -r ../configs/rc1_ext_mm_config .config
 
 
 ###### Then you can add all required additional feeds/packages ######### 
