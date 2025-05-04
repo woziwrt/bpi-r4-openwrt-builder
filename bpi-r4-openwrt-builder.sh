@@ -16,9 +16,10 @@ rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
 cd openwrt; git checkout 3a481ae21bdc504f7f0325151ee0cb4f25dfd2cd; cd -;		#toolchain: mold: add PKG_NAME to Makefile
+#cd openwrt; git checkout d183d7bb7827a469f09bf77f2f22fd9d70ac0ed6; cd -;		#OpenWrt v24.10.1: adjust config defaults
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 3a0f22af03943d350d18042eaea1aa0b8136d716; cd -;	#add handshake with wifi when eth send reset done to wifi
+cd openwrt; git checkout 117d8018b98c348644258a3d8d1b1a2b933df28a; cd -;		#linux-firmware: Change firmware package folder
 
 #feeds modification
 \cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
@@ -29,8 +30,8 @@ rm -rf mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/
 \cp -r my_files/500-tx_power.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/firmware/wireless-regdb/patches
 \cp -r my_files/regdb.Makefile openwrt/package/firmware/wireless-regdb/Makefile
 
-### jumbo frames support
-\cp -r my_files/750-mtk-eth-add-jumbo-frame-support-mt7998.patch openwrt/target/linux/mediatek/patches-6.6
+### jumbo frames support - NOT COMPATIBLE WITH THIS MTK RELEASE NOW !
+#\cp -r my_files/750-mtk-eth-add-jumbo-frame-support-mt7998.patch openwrt/target/linux/mediatek/patches-6.6
 
 ### tx_power patch - required for BE14 boards with defective eeprom flash
 #\cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
@@ -55,13 +56,13 @@ exit 0
 
 ## IMPORTANT NOTE !!!!!
 ## Do not change Target Profile from Multiple devices to other  !!!
-## Do not remove MediaTek MT7988A rbf and MediaTek MT7988D rbf from Target Devices !!! 
+## Do not remove MediaTek MT7988A rfb and MediaTek MT7988D rfb from Target Devices !!! 
 
 #################
 
 cd openwrt
 # Basic config
-\cp -r ../configs/rc1_ext_mm_config .config
+\cp -r ../configs/rc1_ext_config .config
 
 
 ###### Then you can add all required additional feeds/packages ######### 
