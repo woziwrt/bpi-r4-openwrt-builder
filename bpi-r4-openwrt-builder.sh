@@ -20,7 +20,7 @@ cd openwrt; git checkout 4a55d894fdddd028f36b552ee95ab30bc7a79bd4; cd -;		#kerne
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
 #cd mtk-openwrt-feeds; git checkout dfbc4cbf5177b9291807d1d05d3edb76fe509755; cd -;	#Fix patch conflict issue
-cd openwrt; git checkout 930e04abfe39c3d80c255837ed66c01917f1f284; cd -;		#Add firmware encryption config
+cd mtk-openwrt-feeds; git checkout 9f15ba6383ecbcdc20bd83fcd5c7afdc36f9ea21; cd -;	#Add PPPoE support in crypto binding flow
 
 #feeds modification
 #\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
