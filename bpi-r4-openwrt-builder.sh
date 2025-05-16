@@ -16,11 +16,14 @@ rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
 #cd openwrt; git checkout 3a481ae21bdc504f7f0325151ee0cb4f25dfd2cd; cd -;		#toolchain: mold: add PKG_NAME to Makefile
-cd openwrt; git checkout 4a55d894fdddd028f36b552ee95ab30bc7a79bd4; cd -;		#kernel: modules: add HiNIC support
+cd openwrt; git checkout d71e6920fa22a670fdfb76dcd6165c0f3d2d2c2a; cd -;		#mediatek: filogic: fix wifi on ASUS RT-AX52
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
 #cd mtk-openwrt-feeds; git checkout dfbc4cbf5177b9291807d1d05d3edb76fe509755; cd -;	#Fix patch conflict issue
-cd mtk-openwrt-feeds; git checkout 9f15ba6383ecbcdc20bd83fcd5c7afdc36f9ea21; cd -;	#Add PPPoE support in crypto binding flow
+cd mtk-openwrt-feeds; git checkout 9f3e0949fa9624d5ef7262b71ddfbacb6832079a; cd -;	#Add platform limitations for 9K jumbo frames
+
+echo "9f3e094" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+
 
 #feeds modification
 #\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
@@ -30,9 +33,6 @@ cd mtk-openwrt-feeds; git checkout 9f15ba6383ecbcdc20bd83fcd5c7afdc36f9ea21; cd 
 #rm -rf mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/firmware/wireless-regdb/patches/*.*
 #\cp -r my_files/500-tx_power.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/firmware/wireless-regdb/patches
 #\cp -r my_files/regdb.Makefile openwrt/package/firmware/wireless-regdb/Makefile
-
-### jumbo frames support
-#\cp -r my_files/750-mtk-eth-add-jumbo-frame-support-mt7998.patch openwrt/target/linux/mediatek/patches-6.6
 
 ### tx_power patch - required for BE14 boards with defective eeprom flash
 #\cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
@@ -57,7 +57,7 @@ exit 0
 
 ## IMPORTANT NOTE !!!!!
 ## Do not change Target Profile from Multiple devices to other  !!!
-## Do not remove MediaTek MT7988A rbf and MediaTek MT7988D rbf from Target Devices !!! 
+## Do not remove MediaTek MT7988A rfb and MediaTek MT7988D rfb from Target Devices !!! 
 
 #################
 
