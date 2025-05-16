@@ -20,9 +20,9 @@ cd openwrt; git checkout d71e6920fa22a670fdfb76dcd6165c0f3d2d2c2a; cd -;		#media
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
 #cd mtk-openwrt-feeds; git checkout dfbc4cbf5177b9291807d1d05d3edb76fe509755; cd -;	#Fix patch conflict issue
-cd mtk-openwrt-feeds; git checkout 9f3e0949fa9624d5ef7262b71ddfbacb6832079a; cd -;	#Add platform limitations for 9K jumbo frames
+cd mtk-openwrt-feeds; git checkout 5abcfbe88c747d4afd024b7c9f1feda85eebebbc; cd -;	#Enalbe spidev_test in default
 
-echo "9f3e094" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "5abcfbe" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 
 #feeds modification
@@ -33,6 +33,9 @@ echo "9f3e094" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 #rm -rf mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/firmware/wireless-regdb/patches/*.*
 #\cp -r my_files/500-tx_power.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/firmware/wireless-regdb/patches
 #\cp -r my_files/regdb.Makefile openwrt/package/firmware/wireless-regdb/Makefile
+
+### adds a frequency match check to ensure the noise value corresponds to the interface's actual frequency for multiple radios under a single wiphy
+\cp -r my_files/200-wozi-libiwinfo-fix_noise_reading_for_radios.patch openwrt/package/network/utils/iwinfo/patches
 
 ### tx_power patch - required for BE14 boards with defective eeprom flash
 #\cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
