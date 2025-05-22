@@ -15,15 +15,14 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-#cd openwrt; git checkout 3a481ae21bdc504f7f0325151ee0cb4f25dfd2cd; cd -;		#toolchain: mold: add PKG_NAME to Makefile
-cd openwrt; git checkout d71e6920fa22a670fdfb76dcd6165c0f3d2d2c2a; cd -;		#mediatek: filogic: fix wifi on ASUS RT-AX52
+cd openwrt; git checkout 6d41cbf868f4d6c4574c79049d94cbd6cc21f6b8; cd -;		#realtek: add missing symbol
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-#cd mtk-openwrt-feeds; git checkout dfbc4cbf5177b9291807d1d05d3edb76fe509755; cd -;	#Fix patch conflict issue
-cd mtk-openwrt-feeds; git checkout 5abcfbe88c747d4afd024b7c9f1feda85eebebbc; cd -;	#Enalbe spidev_test in default
+cd mtk-openwrt-feeds; git checkout 7ea6b23033d5562b7c7ba6f57fedfb61f5e2b17a; cd -;	#Add firmware device node for optee
 
-echo "5abcfbe" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "7ea6b23" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
+\cp -r my_files/defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
 
 #feeds modification
 #\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
