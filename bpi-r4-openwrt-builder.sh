@@ -18,9 +18,10 @@ git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git ope
 cd openwrt; git checkout 6d41cbf868f4d6c4574c79049d94cbd6cc21f6b8; cd -;		#realtek: add missing symbol
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 7ea6b23033d5562b7c7ba6f57fedfb61f5e2b17a; cd -;	#Add firmware device node for optee
+#cd mtk-openwrt-feeds; git checkout 7ea6b23033d5562b7c7ba6f57fedfb61f5e2b17a; cd -;	#Add firmware device node for optee
+cd mtk-openwrt-feeds; git checkout bd50289f854ff04c50becb4067c1356618f13602; cd -;	#Fix GRE/IPSec and VXLAN/IPSec decap unbind issue
 
-echo "7ea6b23" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "bd50289" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 \cp -r my_files/defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
 
