@@ -18,7 +18,6 @@ git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git ope
 cd openwrt; git checkout 6d41cbf868f4d6c4574c79049d94cbd6cc21f6b8; cd -;		#realtek: add missing symbol
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-#cd mtk-openwrt-feeds; git checkout 7ea6b23033d5562b7c7ba6f57fedfb61f5e2b17a; cd -;	#Add firmware device node for optee
 cd mtk-openwrt-feeds; git checkout bd50289f854ff04c50becb4067c1356618f13602; cd -;	#Fix GRE/IPSec and VXLAN/IPSec decap unbind issue
 
 echo "bd50289" > mtk-openwrt-feeds/autobuild/unified/feed_revision
@@ -27,6 +26,8 @@ echo "bd50289" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 #feeds modification
 #\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
+
+
 
 ### wireless-regdb modification - this remove all regdb wireless countries restrictions
 #rm -rf openwrt/package/firmware/wireless-regdb/patches/*.*
@@ -42,6 +43,9 @@ echo "bd50289" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 ### tx_power patch - by dan pawlik
 \cp -r my_files/99999_tx_power_check_by_dan_pawlik.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
+
+### remove mtk strongswan uci support patch
+rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patch
 
 ### required & thermal zone 
 \cp -r my_files/1007-wozi-arch-arm64-dts-mt7988a-add-thermal-zone.patch mtk-openwrt-feeds/24.10/patches-base/
