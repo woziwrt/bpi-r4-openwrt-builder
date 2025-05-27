@@ -7,7 +7,8 @@
 # sudo apt update
 # sudo apt install build-essential clang flex bison g++ gawk \
 # gcc-multilib g++-multilib gettext git libncurses-dev libssl-dev \
-# python3-setuptools rsync swig unzip zlib1g-dev file wget
+# python3-setuptools rsync swig unzip zlib1g-dev file wget \
+# libtraceevent-dev systemtap-sdt-dev libslang-dev
 #
 #*****************************************************************************
 
@@ -19,9 +20,9 @@ git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git ope
 cd openwrt; git checkout 0ccd68f9baedc3c9515694a4f77872ff54b53d9c; cd -;		#mac80211: brcm: update RPi brcmfmac patches
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 45eb5ee30f9bde569e6665473fce29391e1987bb ; cd -;	#host memory EMI feature
+cd mtk-openwrt-feeds; git checkout 0508b9a0d0119991d87252da0075e557dabd5b2e; cd -;	#fix cryptsetup patch directory to feeds/packages
 
-echo "45eb5ee" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "0508b9a" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 \cp -r my_files/defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
 
@@ -51,9 +52,11 @@ echo "45eb5ee" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 ### required & thermal zone 
 \cp -r my_files/1007-wozi-arch-arm64-dts-mt7988a-add-thermal-zone.patch mtk-openwrt-feeds/24.10/patches-base/
 
-sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/defconfig
-sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/autobuild_5.4_mac80211_release/mt7988_wifi7_mac80211_mlo/.config
-sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/autobuild_5.4_mac80211_release/mt7986_mac80211/.config
+#sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/defconfig
+#sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/autobuild_5.4_mac80211_release/mt7988_wifi7_mac80211_mlo/.config
+#sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/autobuild_5.4_mac80211_release/mt7986_mac80211/.config
+
+export NO_JEVENTS=1
 
 cd openwrt
 bash ../mtk-openwrt-feeds/autobuild/unified/autobuild.sh filogic-mac80211-mt7988_rfb-mt7996 log_file=make
