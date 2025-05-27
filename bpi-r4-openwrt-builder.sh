@@ -15,12 +15,13 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout 6d41cbf868f4d6c4574c79049d94cbd6cc21f6b8; cd -;		#realtek: add missing symbol
+#cd openwrt; git checkout 6d41cbf868f4d6c4574c79049d94cbd6cc21f6b8; cd -;		#realtek: add missing symbol
+cd openwrt; git checkout 0ccd68f9baedc3c9515694a4f77872ff54b53d9c; cd -;		#mac80211: brcm: update RPi brcmfmac patches
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout bd50289f854ff04c50becb4067c1356618f13602; cd -;	#Fix GRE/IPSec and VXLAN/IPSec decap unbind issue
+cd mtk-openwrt-feeds; git checkout 45eb5ee30f9bde569e6665473fce29391e1987bb ; cd -;	#host memory EMI feature
 
-echo "bd50289" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "45eb5ee" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 \cp -r my_files/defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
 
@@ -45,7 +46,7 @@ echo "bd50289" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 \cp -r my_files/99999_tx_power_check_by_dan_pawlik.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
 ### remove mtk strongswan uci support patch
-rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patch
+#rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patch
 
 ### required & thermal zone 
 \cp -r my_files/1007-wozi-arch-arm64-dts-mt7988a-add-thermal-zone.patch mtk-openwrt-feeds/24.10/patches-base/
