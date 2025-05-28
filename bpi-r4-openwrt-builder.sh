@@ -16,15 +16,15 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-#cd openwrt; git checkout 6d41cbf868f4d6c4574c79049d94cbd6cc21f6b8; cd -;		#realtek: add missing symbol
 cd openwrt; git checkout 0ccd68f9baedc3c9515694a4f77872ff54b53d9c; cd -;		#mac80211: brcm: update RPi brcmfmac patches
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 0508b9a0d0119991d87252da0075e557dabd5b2e; cd -;	#fix cryptsetup patch directory to feeds/packages
+cd mtk-openwrt-feeds; git checkout e1fc3a0c3b96d6e292cb2f73ddebdbd77deb663b; cd -;	#Add network support for mt7531 switch P5 to the MT7987
 
-echo "0508b9a" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "e1fc3a0" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
-\cp -r my_files/defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
+#\cp -r configs/defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
+\cp -r configs/dbg_defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
 
 #feeds modification
 #\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
