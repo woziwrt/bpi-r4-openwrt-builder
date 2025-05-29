@@ -16,12 +16,16 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout 0ccd68f9baedc3c9515694a4f77872ff54b53d9c; cd -;		#mac80211: brcm: update RPi brcmfmac patches
+#cd openwrt; git checkout 0ccd68f9baedc3c9515694a4f77872ff54b53d9c; cd -;		#mac80211: brcm: update RPi brcmfmac patches
+cd openwrt; git checkout 6d46015d8b31373aa71c703de9fc409f2430646d; cd -;		#x86: add missing configuration
+
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout e1fc3a0c3b96d6e292cb2f73ddebdbd77deb663b; cd -;	#Add network support for mt7531 switch P5 to the MT7987
+#cd mtk-openwrt-feeds; git checkout 38ebfac1d21aa2bfeb05ce7f76d99f98437b43c5; cd -;	#Add config package for memdump
+cd mtk-openwrt-feeds; git checkout 03c3c3e365f943c30f57bde70cb41ed40656475d; cd -;	#Fix coverity scan issue
 
-echo "e1fc3a0" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+
+echo "03c3c3e" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 #\cp -r configs/defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
 \cp -r configs/dbg_defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig

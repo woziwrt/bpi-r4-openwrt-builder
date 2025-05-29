@@ -88,3 +88,5 @@ CONFIG_PACKAGE_ppp-mod-pptp=y
 CONFIG_PACKAGE_tcpdump=y
 CONFIG_PACKAGE_spidev-test=y
 CONFIG_PACKAGE_trace-cmd=y
+CONFIG_PACKAGE_iputils-ping=y
+CONFIG_PACKAGE_iputils-arping=y
