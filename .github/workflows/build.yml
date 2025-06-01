@@ -41,15 +41,62 @@ jobs:
 
           echo "Build script finished. Checking for compiled firmware..."
 
-      - name: Find and Upload Compiled Firmware
-        uses: actions/upload-artifact@v4 # Загружаем скомпилированную прошивку как артефакт
+
+      - name: Compress all packages
+        run: |
+          cd openwrt;
+          tar caf bin/targets/mediatek/filogic/packages.tar.gz bin/targets/mediatek/filogic/packages
+
+      - name: Add config file
+        run: |
+          cd openwrt;
+          cp .config  bin/targets/mediatek/filogic/config-full
+
+      - name: Package output
+        run: |
+          cd openwrt;
+          tar -cvf ../bpi_r4-images.tar bin/targets/mediatek/filogic
+
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
         with:
-          name: OpenWrt-Firmware_R-4
-          # ВАЖНО: Укажите здесь ПРАВИЛЬНЫЙ путь к папке, где ваш скрипт сохраняет готовую прошивку.
-          # Это САМАЯ частая причина проблем.
-          # Например, если скрипт клонирует OpenWrt SDK в папку 'openwrt'
-          # и затем компилирует, то прошивка может быть в 'openwrt/bin/targets/mediatek/filogic/'
-          # Или если скрипт сам создает папку 'output/', то путь будет './output/'.
-          path: openwrt/bin/targets/mediatek/filogic/ # <--- ЭТОТ ПУТЬ СКОРЕЕ ВСЕГО НУЖНО ИЗМЕНИТЬ!
-          # Вы можете посмотреть логи вашего скрипта `./bpi-r4-openwrt-builder.sh`
-          # чтобы узнать точный путь к скомпилированным файлам.
+          name: bpi_r4-images
+          path: bpi_r4-images.tar
+
+  release:
+    name: Create release
+    needs: [build]
+    if: needs.build.result == 'success'
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Download artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: bpi_r4-images
+
+      - name: Extract artifacts
+        run: tar xf bpi_r4-images.tar
+
+      - name: Get current date
+        run: echo "RELEASE_DATE=$(date +%F)" >> $GITHUB_ENV
+
+      - name: Create release
+        uses: softprops/action-gh-release@master
+        with:
+          files: bin/targets/mediatek/filogic/*
+          tag_name: ${{ env.RELEASE_PREFIX }}-${{ env.REMOTE_BRANCH }}-${{ env.RELEASE_DATE }}
+          name: OpenWRT BPI-R4 with MTK Feed with my packages ${{ inputs.DEVICE_CONFIG == 'poe' && 'POE' || '' }} - ${{ env.RELEASE_DATE }}
+          body: |
+            Updated prebuilt images for BPI-R4 ${{ inputs.DEVICE_CONFIG == 'poe' && 'PoE version' || '' }}  with MTK feed and my custom packages
+
+            OpenWrt ref: ${{ env.OPENWRT_REF }}
+            Mediatek feed ref: ${{ env.MEDIATEK_REF }}
+            Project ref: ${{ needs.check_commits.outputs.latest_commit_sha }}
+
+      - name: Clean up old releases
+        uses: dev-drprasad/delete-older-releases@master
+        with:
+          keep_latest: 5
+          delete_tags: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
