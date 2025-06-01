@@ -37,8 +37,8 @@ jobs:
             /var/lib/mysql* /var/log/azure*"
           testing: false
       
-       - name: Set up build environment
-         run: |
+      - name: Set up build environment
+        run: |
            echo "Installing essential build dependencies..."
            sudo apt update
            sudo apt install -y build-essential clang flex bison g++ gawk \
