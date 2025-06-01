@@ -108,15 +108,12 @@ jobs:
         uses: softprops/action-gh-release@master
         with:
           files: bin/targets/mediatek/filogic/*
-          tag_name: ${{ env.RELEASE_PREFIX }}-${{ env.REMOTE_BRANCH }}-${{ env.RELEASE_DATE }}
+          tag_name: ${{ env.RELEASE_DATE }}
           name: OpenWRT BPI-R4 with MTK Feed with my packages - ${{ env.RELEASE_DATE }}
           body: |
             Updated prebuilt images for BPI-R4 with MTK feed and my custom packages
 
-            OpenWrt ref: ${{ env.OPENWRT_REF }}
-            Mediatek feed ref: ${{ env.MEDIATEK_REF }}
-            Project ref: ${{ needs.check_commits.outputs.latest_commit_sha }}
-
+            
       - name: Clean up old releases
         uses: dev-drprasad/delete-older-releases@master
         with:
