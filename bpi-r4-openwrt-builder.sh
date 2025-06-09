@@ -16,22 +16,26 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout 6d46015d8b31373aa71c703de9fc409f2430646d; cd -;		#x86: add missing configuration
+#cd openwrt; git checkout 6706c8a6e358857e916737f5e0bb41d40003de26; cd -;		#fix compilation with GCC15
+cd openwrt; git checkout 0a21ab73121c7db7c9c92c7cbf2a7b8b586007a6; cd -;		#enable WiFi LED for Teltonika RUTX50#
+
 
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 0bc8f7698e0b28104b2d2962f3ef1f578fb482e3; cd -;	#Add Airoha AN8831X 10G PHY DTSO and driver package
+#cd mtk-openwrt-feeds; git checkout 11cc0ee3c62a119b16483d52dd63d634353804a8; cd -;	#Change nft flowoffload rule table to support ipv6 offload
+cd mtk-openwrt-feeds; git checkout f737b2f5f33d611f9e96f91ffccd0531700b6282; cd -;	#Add Airoha AN8831X 10G PHY driver package
 
 
-echo "0bc8f76" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+#echo "11cc0ee" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 #\cp -r configs/defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
 \cp -r configs/dbg_defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
 
-#feeds modification
-#\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
+#Change Feeds Revision
+\cp -r my_files/w-feed_revision mtk-openwrt-feeds/autobuild/unified/feed_revision
 
-
+### remove mtk strongswan uci support patch
+rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patch 
 
 ### wireless-regdb modification - this remove all regdb wireless countries restrictions
 #rm -rf openwrt/package/firmware/wireless-regdb/patches/*.*
@@ -47,9 +51,6 @@ echo "0bc8f76" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 ### tx_power patch - by dan pawlik
 \cp -r my_files/99999_tx_power_check_by_dan_pawlik.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
-
-### remove mtk strongswan uci support patch
-#rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patch
 
 ### required & thermal zone 
 \cp -r my_files/1007-wozi-arch-arm64-dts-mt7988a-add-thermal-zone.patch mtk-openwrt-feeds/24.10/patches-base/
