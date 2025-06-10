@@ -23,7 +23,7 @@ cd openwrt; git checkout 0a21ab73121c7db7c9c92c7cbf2a7b8b586007a6; cd -;		#enabl
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
 #cd mtk-openwrt-feeds; git checkout 11cc0ee3c62a119b16483d52dd63d634353804a8; cd -;	#Change nft flowoffload rule table to support ipv6 offload
-cd mtk-openwrt-feeds; git checkout f737b2f5f33d611f9e96f91ffccd0531700b6282; cd -;	#Add Airoha AN8831X 10G PHY driver package
+cd mtk-openwrt-feeds; git checkout aa3133f6f1ed93b99372b63636f75dbddd9547bd; cd -;	#Fix memory leak issue for the nft_flow_offload
 
 
 #echo "11cc0ee" > mtk-openwrt-feeds/autobuild/unified/feed_revision
@@ -44,13 +44,13 @@ rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patc
 #\cp -r my_files/regdb.Makefile openwrt/package/firmware/wireless-regdb/Makefile
 
 ### adds a frequency match check to ensure the noise value corresponds to the interface's actual frequency for multiple radios under a single wiphy
-\cp -r my_files/200-wozi-libiwinfo-fix_noise_reading_for_radios.patch openwrt/package/network/utils/iwinfo/patches
+#\cp -r my_files/200-wozi-libiwinfo-fix_noise_reading_for_radios.patch openwrt/package/network/utils/iwinfo/patches
 
 ### tx_power patch - required for BE14 boards with defective eeprom flash
 #\cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
 ### tx_power patch - by dan pawlik
-\cp -r my_files/99999_tx_power_check_by_dan_pawlik.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
+#\cp -r my_files/99999_tx_power_check_by_dan_pawlik.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
 ### required & thermal zone 
 \cp -r my_files/1007-wozi-arch-arm64-dts-mt7988a-add-thermal-zone.patch mtk-openwrt-feeds/24.10/patches-base/
