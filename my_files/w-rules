@@ -1,0 +1,58 @@
+list_add_after $(hooks autobuild_prepare) platform_change_kernel_config filogic_change_kernel_config
+list_add_after $(hooks autobuild_prepare) copy_global_files copy_optee_files
+list_add_after $(hooks do_build) download_openwrt_packages airoha_firmware_install
+
+# remove crypto packages to prevent warning caused by package dependency
+#if [ -z ${internal_build} ]; then
+#	list_prepend $(hooks autobuild_prepare) remove_crypto_package
+#fi
+
+if test x"${hqa_set}" == x"yes"; then
+	list_add_after $(hooks autobuild_prepare) apply_global_patches apply_hqa_patches
+fi
+
+help_add_line "  hqa - Enable HQA test support."
+
+platform_change_openwrt_config() {
+	# Enable the following packages for eMMC QVL
+	openwrt_config_enable CONFIG_PACKAGE_fio
+	openwrt_config_enable CONFIG_PACKAGE_lsblk
+	openwrt_config_enable CONFIG_PACKAGE_sfdisk
+	openwrt_config_enable CONFIG_PACKAGE_mmc-utils
+}
+
+filogic_change_kernel_config() {
+	kernel_config_enable CONFIG_EXTRA_FIRMWARE "\"airoha/EthMD32.dm.bin airoha/EthMD32.DSP.bin"\"
+	kernel_config_enable CONFIG_EXTRA_FIRMWARE_DIR "\"../../linux-firmware-20241110/"\"
+	kernel_config_enable CONFIG_AIR_EN8811H_PHY
+	kernel_config_enable CONFIG_AIR_EN8811H_PHY_DEBUGFS
+	kernel_config_enable CONFIG_MT753X_GSW
+	kernel_config_enable CONFIG_AN8855_GSW
+	kernel_config_disable CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE
+	kernel_config_enable CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE
+	kernel_config_enable CONFIG_LEDS_PWM_MULTICOLOR
+	kernel_config_enable CONFIG_SENSORS_PWM_FAN
+	kernel_config_enable CONFIG_NET_DSA_MXL862
+	kernel_config_enable CONFIG_NET_DSA_TAG_MXL862
+	kernel_config_enable CONFIG_NET_DSA_TAG_MXL862_8021Q
+	kernel_config_disable CONFIG_MEDIATEK_NETSYS_V2
+	kernel_config_disable CONFIG_MEDIATEK_NETSYS_V3
+}
+
+apply_hqa_patches() {
+	apply_patches "filogic/${openwrt_branch}/extra-data/hqa_patches" || return 1
+}
+
+copy_optee_files() {
+	copy_files "${openwrt_root}/../optee/optee_plat_mtk" "package/mtk/optee-mediatek/src/optee_plat_mtk"
+	copy_files "${openwrt_root}/../optee/optee_apps" "package/mtk/optee-mediatek/src/optee_apps"
+	copy_files "${openwrt_root}/../optee/optee_test_mtk" "package/mtk/optee-mediatek/src/optee_test_mtk"
+}
+
+airoha_firmware_install() {
+	exec_log "make -C \"${openwrt_root}\" V=${verbose} -j\$((\$(nproc) + 1)) package/firmware/linux-firmware/{clean,prepare}"
+}
+
+remove_crypto_package () {
+	exec_log "${openwrt_root}/scripts/feeds uninstall crypto-eip pce tops-tool"
+}
