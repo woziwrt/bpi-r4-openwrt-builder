@@ -56,5 +56,5 @@ airoha_firmware_install() {
 }
 
 remove_crypto_package () {
-	exec_log "${openwrt_root}/scripts/feeds uninstall tops-tool"
+	exec_log "${openwrt_root}/scripts/feeds uninstall pce tops-tool"
 }
