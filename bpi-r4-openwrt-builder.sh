@@ -16,12 +16,13 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout 989b12999c5b7c35ec310d26ac6f01eb9567be6e; cd -;		#perf: disable slang support
+cd openwrt; git checkout e876f7bc62592ca8bc3125e55936cd0f761f4d5a; cd -;		#add support for Zbtlink ZBT-Z8102AX v2
+
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout cc0de566eb90309e997d66ed1095579eb3b30751; cd -;	#Add mtkhnat macvlan support
+cd mtk-openwrt-feeds; git checkout 7ab016b920ee13c0c099ab8b57b1774c95609deb; cd -;	#Fix nf_conn_qos offset len incorrect issue
 
-echo cc0de56"" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "7ab016b" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 #\cp -r configs/defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
 #\cp -r configs/dbg_defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig	#dbg+strongswan
@@ -45,10 +46,10 @@ rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patc
 cp -r my_files/200-wozi-libiwinfo-fix_noise_reading_for_radios.patch openwrt/package/network/utils/iwinfo/patches
 
 ### tx_power patch - required for BE14 boards with defective eeprom flash
-#\cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
+\cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
 ### tx_power patch - by dan pawlik
-\cp -r my_files/99999_tx_power_check_by_dan_pawlik.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
+#\cp -r my_files/99999_tx_power_check_by_dan_pawlik.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
 ### required & thermal zone 
 \cp -r my_files/1007-wozi-arch-arm64-dts-mt7988a-add-thermal-zone.patch mtk-openwrt-feeds/24.10/patches-base/
