@@ -3,9 +3,9 @@ list_add_after $(hooks autobuild_prepare) copy_global_files copy_optee_files
 list_add_after $(hooks do_build) download_openwrt_packages airoha_firmware_install
 
 # remove crypto packages to prevent warning caused by package dependency
-if [ -z ${internal_build} ]; then
-	list_prepend $(hooks autobuild_prepare) remove_crypto_package
-fi
+#if [ -z ${internal_build} ]; then
+#	list_prepend $(hooks autobuild_prepare) remove_crypto_package
+#fi
 
 if test x"${hqa_set}" == x"yes"; then
 	list_add_after $(hooks autobuild_prepare) apply_global_patches apply_hqa_patches
@@ -56,5 +56,5 @@ airoha_firmware_install() {
 }
 
 remove_crypto_package () {
-	exec_log "${openwrt_root}/scripts/feeds uninstall tops-tool"
+	exec_log "${openwrt_root}/scripts/feeds uninstall crypto-eip pce tops-tool"
 }

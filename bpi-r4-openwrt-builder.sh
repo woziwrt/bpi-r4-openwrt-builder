@@ -16,13 +16,12 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout e876f7bc62592ca8bc3125e55936cd0f761f4d5a; cd -;		#add support for Zbtlink ZBT-Z8102AX v2
-
+cd openwrt; git checkout 25467b09f13f2414ed5e0f4967772c3b29360c01; cd -;		#mediatek: add support for ipTIME AX3000SM
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 7ab016b920ee13c0c099ab8b57b1774c95609deb; cd -;	#Fix nf_conn_qos offset len incorrect issue
+cd mtk-openwrt-feeds; git checkout 4a5a3541ff862be3b6c4e29ec999624dfecbb12a; cd -;	#Add a dynamic enable feature for PPE drop to enhance the Tx throughput in WiFi7 MLO
 
-echo "7ab016b" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "4a5a35" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 #\cp -r configs/defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
 #\cp -r configs/dbg_defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig	#dbg+strongswan
@@ -76,7 +75,7 @@ exit 0
 
 cd openwrt
 # Basic config
-\cp -r ../configs/rc1_ext_mm_config .config
+\cp -r ../configs/mm_config .config
 
 
 ###### Then you can add all required additional feeds/packages ######### 
