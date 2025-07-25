@@ -11,7 +11,18 @@ if test x"${hqa_set}" == x"yes"; then
 	list_add_after $(hooks autobuild_prepare) apply_global_patches apply_hqa_patches
 fi
 
+if test x"${optee}" == x"yes"; then
+	list_add_after $(hooks autobuild_prepare) platform_change_openwrt_config platform_enable_optee_config
+	list_add_before $(hooks do_build) build_openwrt platform_build_optee_rpmb
+fi
+
+if test x"${secure_boot}" == x"yes"; then
+	list_add_after $(hooks autobuild_prepare) platform_change_openwrt_config platform_enable_security_config
+fi
+
 help_add_line "  hqa - Enable HQA test support."
+help_add_line "  optee - Enable optee"
+help_add_line "  secure_boot - Enable secure_boot, including signing, anti-rollback and firmware encryption"
 
 platform_change_openwrt_config() {
 	# Enable the following packages for eMMC QVL
@@ -39,6 +50,44 @@ filogic_change_kernel_config() {
 	kernel_config_enable CONFIG_NET_DSA_TAG_MXL862_8021Q
 	kernel_config_disable CONFIG_MEDIATEK_NETSYS_V2
 	kernel_config_disable CONFIG_MEDIATEK_NETSYS_V3
+}
+
+platform_enable_optee_config() {
+	openwrt_config_enable CONFIG_PACKAGE_optee-mediatek
+	openwrt_config_enable CONFIG_OPTEE_TEST
+	openwrt_config_enable CONFIG_OPTEE_FW_ENC_EARLY_TA
+	openwrt_config_enable CONFIG_OPTEE_MTK_TEST
+}
+
+platform_build_optee_rpmb() {
+	# clean optee package
+	exec_log "make -C \"${openwrt_root}\" package/mtk/optee-mediatek/clean V=s"
+
+	# add RPMB config
+	openwrt_config_enable CONFIG_OPTEE_RPMB_FS
+	openwrt_config_enable CONFIG_OPTEE_RPMB_WRITE_KEY
+
+	# defconfig
+	make_defconfig
+
+	# re-build optee
+	exec_log "make -C \"${openwrt_root}\" package/mtk/optee-mediatek/compile V=s"
+
+	# revert RPMB config
+	openwrt_config_disable CONFIG_OPTEE_RPMB_FS
+	openwrt_config_disable CONFIG_OPTEE_RPMB_WRITE_KEY
+
+	# defconfig
+	make_defconfig
+
+	# clean optee package
+	exec_log "make -C \"${openwrt_root}\" package/mtk/optee-mediatek/clean V=s"
+}
+
+platform_enable_security_config() {
+	openwrt_config_enable CONFIG_MTK_SECURE_BOOT
+	openwrt_config_enable CONFIG_MTK_ANTI_ROLLBACK
+	openwrt_config_enable CONFIG_MTK_FW_ENC
 }
 
 apply_hqa_patches() {

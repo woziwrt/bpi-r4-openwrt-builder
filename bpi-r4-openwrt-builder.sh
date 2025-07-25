@@ -16,19 +16,15 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout 25467b09f13f2414ed5e0f4967772c3b29360c01; cd -;		#mediatek: add support for ipTIME AX3000SM
+cd openwrt; git checkout ac80abb085117d5f198729b982e80f4f3de7bd18; cd -;		#wifi-scripts: correctly set basic-rates with wpa_supplicant
+
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 4a5a3541ff862be3b6c4e29ec999624dfecbb12a; cd -;	#Add a dynamic enable feature for PPE drop to enhance the Tx throughput in WiFi7 MLO
+cd mtk-openwrt-feeds; git checkout 9a5944b3c880a3d2622d360ca4a2e9aedbde2314; cd -;	#Fix IPSec traffic not entering SW fast path issue
 
-echo "4a5a35" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "9a5944" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
-#\cp -r configs/defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
-#\cp -r configs/dbg_defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig	#dbg+strongswan
 \cp -r configs/dbg_defconfig_crypto mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
-
-#Change Feeds Revision
-#\cp -r my_files/w-feed_revision mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 \cp -r my_files/w-rules mtk-openwrt-feeds/autobuild/unified/filogic/rules
 
@@ -46,9 +42,6 @@ cp -r my_files/200-wozi-libiwinfo-fix_noise_reading_for_radios.patch openwrt/pac
 
 ### tx_power patch - required for BE14 boards with defective eeprom flash
 \cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
-
-### tx_power patch - by dan pawlik
-#\cp -r my_files/99999_tx_power_check_by_dan_pawlik.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
 ### required & thermal zone 
 \cp -r my_files/1007-wozi-arch-arm64-dts-mt7988a-add-thermal-zone.patch mtk-openwrt-feeds/24.10/patches-base/
