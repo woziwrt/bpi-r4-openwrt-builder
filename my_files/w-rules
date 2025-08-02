@@ -13,7 +13,8 @@ fi
 
 if test x"${optee}" == x"yes"; then
 	list_add_after $(hooks autobuild_prepare) platform_change_openwrt_config platform_enable_optee_config
-	list_add_before $(hooks do_build) build_openwrt platform_build_optee_rpmb
+	list_add_after $(hooks do_build) build_openwrt platform_build_optee_rpmb
+	list_add_after $(hooks do_release) collect_feeds_buildinfo optee_release_binary
 fi
 
 if test x"${secure_boot}" == x"yes"; then
@@ -88,6 +89,15 @@ platform_enable_security_config() {
 	openwrt_config_enable CONFIG_MTK_SECURE_BOOT
 	openwrt_config_enable CONFIG_MTK_ANTI_ROLLBACK
 	openwrt_config_enable CONFIG_MTK_FW_ENC
+}
+
+optee_release_binary() {
+	local files=$(find "${openwrt_bin_dir}" -maxdepth 2 -name 'tee.bin')
+
+	for file in ${files}; do
+		local file_dir=$(dirname ${file})
+		exec_log "cp -rf \"${file_dir}\" \"${ab_bin_release}\""
+	done
 }
 
 apply_hqa_patches() {
