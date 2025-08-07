@@ -1,6 +1,6 @@
 list_add_after $(hooks autobuild_prepare) platform_change_kernel_config filogic_change_kernel_config
 list_add_after $(hooks autobuild_prepare) copy_global_files copy_optee_files
-list_add_after $(hooks do_build) download_openwrt_packages airoha_firmware_install
+list_append $(hooks autobuild_prepare) airoha_firmware_install
 
 # remove crypto packages to prevent warning caused by package dependency
 if [ -z ${internal_build} ]; then
@@ -111,7 +111,7 @@ copy_optee_files() {
 }
 
 airoha_firmware_install() {
-	exec_log "make -C \"${openwrt_root}\" V=${verbose} -j\$((\$(nproc) + 1)) package/firmware/linux-firmware/{clean,prepare}"
+	exec_log "make -C \"${openwrt_root}\" V=s package/firmware/linux-firmware/{download,clean,prepare}"
 }
 
 remove_crypto_package () {
