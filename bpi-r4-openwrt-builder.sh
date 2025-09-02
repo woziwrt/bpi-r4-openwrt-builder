@@ -2,7 +2,7 @@
 
 #*****************************************************************************
 #
-# Build environment - Ubuntu 64-bit Desktop 25.04
+# Build environment - Ubuntu 64-bit Server 24.04.2
 #
 # sudo apt update
 # sudo apt install build-essential clang flex bison g++ gawk \
@@ -16,12 +16,12 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout a65ca44cb7a3e6fbb43b230c7c5a0684d88bae8b; cd -;		#kernel: bump 6.6 to 6.6.102
+cd openwrt; git checkout 9de2da13bf5ee895e8acf5a83f910bbdef46f0d1; cd -;		#kernel: mtk_eth_soc: fix tx vlan tag for llc packets
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout b6114208501871ae977ab17c7d00ae8231266e99; cd -;	#Fix trng patch failed since upgrading to 6.6.102
+cd mtk-openwrt-feeds; git checkout 2ef742e1f87d1daebae660a37c2f9a0821e75644; cd -;	#Add new mtk_vct binary for short cable detection on MT7988 GbE
 
-echo "b611420" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "2ef742e" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 #\cp -r configs/defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
 #\cp -r configs/dbg_defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig	#dbg+strongswan
@@ -32,7 +32,7 @@ echo "b611420" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 \cp -r my_files/w-rules mtk-openwrt-feeds/autobuild/unified/filogic/rules
 
-\cp -r my_files/0003-w-hostapd-package-makefile-ucode-files.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/patches-base/0003-hostapd-package-makefile-ucode-files.patch
+\cp -r my_files/0207-wozi-Werror-without-problems.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/network/services/hostapd/patches/
 
 ### remove mtk strongswan uci support patch
 rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patch 
@@ -72,7 +72,7 @@ exit 0
 
 cd openwrt
 # Basic config
-\cp -r ../configs/mm.config .config
+\cp -r ../configs/mm_config .config
 
 
 ###### Then you can add all required additional feeds/packages ######### 

@@ -1,0 +1,21 @@
+--- a/src/ap/ieee802_11.c
++++ b/src/ap/ieee802_11.c
+@@ -27,6 +27,7 @@
+ #include "common/wpa_ctrl.h"
+ #include "common/ptksa_cache.h"
+ #include "common/nan_de.h"
++#include "common/hw_features_common.h"
+ #include "radius/radius.h"
+ #include "radius/radius_client.h"
+ #include "p2p/p2p.h"
+--- a/src/ap/ieee802_11_eht.c
++++ b/src/ap/ieee802_11_eht.c
+@@ -1660,7 +1660,7 @@
+ 		goto out;
+ 	}
+ 
+-	hostapd_drv_set_eml_omn(hapd, addr, omn_ie);
++	hostapd_drv_set_eml_omn(hapd, (u8 *) addr, omn_ie);
+ 
+ 	omn_ie->control &= ~(EHT_EML_OMN_CONTROL_EMLSR_PARA_UPDATE_COUNT |
+ 			     EHT_EML_OMN_CONTROL_INDEV_COEX_ACTIVITIES);
