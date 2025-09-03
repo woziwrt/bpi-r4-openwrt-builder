@@ -50,6 +50,7 @@ filogic_change_kernel_config() {
 	kernel_config_enable CONFIG_NET_DSA_TAG_MXL862_8021Q
 	kernel_config_disable CONFIG_MEDIATEK_NETSYS_V2
 	kernel_config_disable CONFIG_MEDIATEK_NETSYS_V3
+	kernel_config_enable CONFIG_PTP_1588_CLOCK
 }
 
 platform_enable_optee_config() {

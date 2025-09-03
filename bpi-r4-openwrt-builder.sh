@@ -2,7 +2,7 @@
 
 #*****************************************************************************
 #
-# Build environment - Ubuntu 64-bit Server 24.04.2
+# Build environment - Ubuntu 64-bit Desktop 25.04
 #
 # sudo apt update
 # sudo apt install build-essential clang flex bison g++ gawk \
@@ -16,23 +16,16 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout 9de2da13bf5ee895e8acf5a83f910bbdef46f0d1; cd -;		#kernel: mtk_eth_soc: fix tx vlan tag for llc packets
+cd openwrt; git checkout b4b9288f2aa3dd1a759e5effbc8378f614bd5755; cd -;		#mac80211: Update to 6.12.44
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 2ef742e1f87d1daebae660a37c2f9a0821e75644; cd -;	#Add new mtk_vct binary for short cable detection on MT7988 GbE
+cd mtk-openwrt-feeds; git checkout 8f87d5d772c637d8353c81a94774fd5c19cab982; cd -;	#[MAC80211][WiFi6/7][app][Add TXCONTSTOP]
 
-echo "2ef742e" > mtk-openwrt-feeds/autobuild/unified/feed_revision
-
-#\cp -r configs/defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
-#\cp -r configs/dbg_defconfig mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig	#dbg+strongswan
-#\cp -r configs/dbg_defconfig_crypto mtk-openwrt-feeds/autobuild/unified/filogic/24.10/defconfig
-
-#Change Feeds Revision
-#\cp -r my_files/w-feeds.conf.default openwrt/feeds.conf.default
+echo "8f87d5d" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 \cp -r my_files/w-rules mtk-openwrt-feeds/autobuild/unified/filogic/rules
 
-\cp -r my_files/0207-wozi-Werror-without-problems.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/network/services/hostapd/patches/
+\cp -r my_files/0237-wozi-Werror-correction.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/network/services/hostapd/patches/
 
 ### remove mtk strongswan uci support patch
 rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patch 
@@ -71,7 +64,7 @@ exit 0
 #################
 
 cd openwrt
-# Basic config
+# RC2 config
 \cp -r ../configs/mm_config .config
 
 
@@ -90,6 +83,6 @@ cd openwrt
 ####### And finally configure whatever you want ##########
 
 make menuconfig
-make -j$(nproc)
+make -j1 V=sc
 
 
