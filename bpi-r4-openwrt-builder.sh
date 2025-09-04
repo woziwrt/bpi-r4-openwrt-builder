@@ -19,13 +19,11 @@ git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git ope
 cd openwrt; git checkout b4b9288f2aa3dd1a759e5effbc8378f614bd5755; cd -;		#mac80211: Update to 6.12.44
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 8f87d5d772c637d8353c81a94774fd5c19cab982; cd -;	#[MAC80211][WiFi6/7][app][Add TXCONTSTOP]
+cd mtk-openwrt-feeds; git checkout 6ed2d739afdb8bcc5da031794a217a4059f89a3f; cd -;	#net: phy: mtk-2p5ge: Do final cleanups for kmod options & change base patch location
 
-echo "8f87d5d" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "6ed2d73" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 \cp -r my_files/w-rules mtk-openwrt-feeds/autobuild/unified/filogic/rules
-
-\cp -r my_files/0237-wozi-Werror-correction.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/network/services/hostapd/patches/
 
 ### remove mtk strongswan uci support patch
 rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patch 
