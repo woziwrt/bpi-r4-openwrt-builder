@@ -19,9 +19,9 @@ git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git ope
 cd openwrt; git checkout b4b9288f2aa3dd1a759e5effbc8378f614bd5755; cd -;		#mac80211: Update to 6.12.44
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 6ed2d739afdb8bcc5da031794a217a4059f89a3f; cd -;	#net: phy: mtk-2p5ge: Do final cleanups for kmod options & change base patch location
+cd mtk-openwrt-feeds; git checkout f871412c04be6b382ff7cb58dc7ef434249e03d1; cd -;	#Update MT7990/92/96 FW to 20250905 to fix MLO T.P issue scan or channel switch.
 
-echo "6ed2d73" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "f871412" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 \cp -r my_files/w-rules mtk-openwrt-feeds/autobuild/unified/filogic/rules
 
@@ -43,11 +43,11 @@ rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patc
 ### required & thermal zone 
 \cp -r my_files/1007-wozi-arch-arm64-dts-mt7988a-add-thermal-zone.patch mtk-openwrt-feeds/24.10/patches-base/
 
+\cp -r my_files/3703-6.6.103-remove-uci-duplicate-ports.patch mtk-openwrt-feeds/autobuild/unified/filogic/24.10/patches-base/
+
 sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/defconfig
 sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/autobuild_5.4_mac80211_release/mt7988_wifi7_mac80211_mlo/.config
 sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/autobuild_5.4_mac80211_release/mt7986_mac80211/.config
-
-\cp -r my_files/3703-6.6.103-remove-uci-duplicate-ports.patch mtk-openwrt-feeds/autobuild/unified/filogic/24.10/patches-base/
 
 cd openwrt
 bash ../mtk-openwrt-feeds/autobuild/unified/autobuild.sh filogic-mac80211-mt7988_rfb-mt7996 log_file=make
@@ -64,7 +64,7 @@ exit 0
 #################
 
 cd openwrt
-# RC2 config
+# Basic config
 \cp -r ../configs/mm_config .config
 
 
