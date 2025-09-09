@@ -108,6 +108,7 @@ CONFIG_TARGET_MULTI_PROFILE=y
 # CONFIG_TARGET_mediatek_filogic_DEVICE_h3c_magic-nx30-pro is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_huasifei_wh3000 is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_huasifei_wh3000-pro is not set
+# CONFIG_TARGET_mediatek_filogic_DEVICE_iptime_ax3000q is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_iptime_ax3000sm is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_jcg_q30-pro is not set
 # CONFIG_TARGET_mediatek_filogic_DEVICE_jdcloud_re-cp-03 is not set
@@ -221,6 +222,7 @@ CONFIG_TARGET_DEVICE_PACKAGES_mediatek_filogic_DEVICE_bananapi_bpi-r4-pro=""
 # CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_h3c_magic-nx30-pro is not set
 # CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_huasifei_wh3000 is not set
 # CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_huasifei_wh3000-pro is not set
+# CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_iptime_ax3000q is not set
 # CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_iptime_ax3000sm is not set
 # CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_jcg_q30-pro is not set
 # CONFIG_TARGET_DEVICE_mediatek_filogic_DEVICE_jdcloud_re-cp-03 is not set
@@ -3094,7 +3096,6 @@ CONFIG_PACKAGE_as21xxx-firmware=y
 # CONFIG_PACKAGE_broadcom-4360-sprom is not set
 # CONFIG_PACKAGE_broadcom-6362-sprom is not set
 # CONFIG_PACKAGE_carl9170-firmware is not set
-CONFIG_PACKAGE_crypto-eip-inline-fw=y
 # CONFIG_PACKAGE_cypress-firmware-43012-sdio is not set
 # CONFIG_PACKAGE_cypress-firmware-43340-sdio is not set
 # CONFIG_PACKAGE_cypress-firmware-43362-sdio is not set
@@ -3280,7 +3281,7 @@ CONFIG_PACKAGE_kmod-ata-core=y
 # CONFIG_PACKAGE_kmod-loop is not set
 # CONFIG_PACKAGE_kmod-md-mod is not set
 # CONFIG_PACKAGE_kmod-nbd is not set
-# CONFIG_PACKAGE_kmod-nvme is not set
+CONFIG_PACKAGE_kmod-nvme=y
 # CONFIG_PACKAGE_kmod-scsi-cdrom is not set
 CONFIG_PACKAGE_kmod-scsi-core=y
 CONFIG_PACKAGE_kmod-scsi-generic=y
@@ -4086,7 +4087,7 @@ CONFIG_PACKAGE_kmod-usb-net-cdc-ncm=y
 # CONFIG_PACKAGE_kmod-usb-net-pegasus is not set
 # CONFIG_PACKAGE_kmod-usb-net-pl is not set
 CONFIG_PACKAGE_kmod-usb-net-qmi-wwan=y
-# CONFIG_PACKAGE_kmod-usb-net-rndis is not set
+CONFIG_PACKAGE_kmod-usb-net-rndis=y
 # CONFIG_PACKAGE_kmod-usb-net-rtl8150 is not set
 # CONFIG_PACKAGE_kmod-usb-net-rtl8152 is not set
 # CONFIG_PACKAGE_kmod-usb-net-sierrawireless is not set
@@ -6173,7 +6174,6 @@ CONFIG_PACKAGE_luci-app-package-manager=y
 # CONFIG_PACKAGE_luci-app-squid is not set
 # CONFIG_PACKAGE_luci-app-sshtunnel is not set
 CONFIG_PACKAGE_luci-app-statistics=y
-CONFIG_PACKAGE_luci-app-strongswan-swanctl=y
 # CONFIG_PACKAGE_luci-app-tinyproxy is not set
 # CONFIG_PACKAGE_luci-app-tor is not set
 # CONFIG_PACKAGE_luci-app-transmission is not set
@@ -6552,25 +6552,7 @@ CONFIG_PACKAGE_switch=y
 #
 # Drivers
 #
-CONFIG_PACKAGE_kmod-crypto-eip=y
-
-#
-# Crypto Offload Configuration
-#
-CONFIG_CRYPTO_OFFLOAD_INLINE=y
-CONFIG_CRYPTO_XFRM_OFFLOAD_MTK_PCE=y
-# end of Crypto Offload Configuration
-
-CONFIG_PACKAGE_kmod-crypto-eip-ddk=y
-CONFIG_PACKAGE_kmod-crypto-eip-ddk-ksupport=y
-CONFIG_PACKAGE_kmod-crypto-eip-ddk-ctrl=y
-CONFIG_PACKAGE_kmod-crypto-eip-ddk-ctrl-app=y
-CONFIG_PACKAGE_kmod-crypto-eip-ddk-engine=y
-CONFIG_PACKAGE_kmod-crypto-eip-inline=y
-# CONFIG_PACKAGE_kmod-crypto-eip-autoload is not set
 # CONFIG_PACKAGE_kmod-fips-debugfs is not set
-CONFIG_PACKAGE_kmod-pce=y
-# CONFIG_PACKAGE_kmod-pce-autoload is not set
 # end of Drivers
 
 #
@@ -7241,110 +7223,7 @@ CONFIG_PACKAGE_linuxptp=y
 # CONFIG_PACKAGE_softethervpn5-client is not set
 # CONFIG_PACKAGE_softethervpn5-server is not set
 # CONFIG_PACKAGE_sstp-client is not set
-CONFIG_PACKAGE_strongswan=y
-
-#
-# Configuration
-#
-CONFIG_STRONGSWAN_ROUTING_TABLE="220"
-CONFIG_STRONGSWAN_ROUTING_TABLE_PRIO="220"
-
-#
-# Packages
-#
-CONFIG_PACKAGE_strongswan-charon=y
-# CONFIG_PACKAGE_strongswan-charon-cmd is not set
-CONFIG_PACKAGE_strongswan-default=y
-# CONFIG_PACKAGE_strongswan-full is not set
-# CONFIG_PACKAGE_strongswan-ipsec is not set
-# CONFIG_PACKAGE_strongswan-isakmp is not set
-# CONFIG_PACKAGE_strongswan-libnttfft is not set
-# CONFIG_PACKAGE_strongswan-libtls is not set
-# CONFIG_PACKAGE_strongswan-minimal is not set
-# CONFIG_PACKAGE_strongswan-mod-addrblock is not set
-CONFIG_PACKAGE_strongswan-mod-aes=y
-# CONFIG_PACKAGE_strongswan-mod-af-alg is not set
-# CONFIG_PACKAGE_strongswan-mod-agent is not set
-CONFIG_PACKAGE_strongswan-mod-attr=y
-# CONFIG_PACKAGE_strongswan-mod-attr-sql is not set
-# CONFIG_PACKAGE_strongswan-mod-bliss is not set
-# CONFIG_PACKAGE_strongswan-mod-blowfish is not set
-# CONFIG_PACKAGE_strongswan-mod-ccm is not set
-# CONFIG_PACKAGE_strongswan-mod-chapoly is not set
-# CONFIG_PACKAGE_strongswan-mod-cmac is not set
-CONFIG_PACKAGE_strongswan-mod-connmark=y
-CONFIG_PACKAGE_strongswan-mod-constraints=y
-# CONFIG_PACKAGE_strongswan-mod-coupling is not set
-# CONFIG_PACKAGE_strongswan-mod-ctr is not set
-# CONFIG_PACKAGE_strongswan-mod-curl is not set
-# CONFIG_PACKAGE_strongswan-mod-curve25519 is not set
-CONFIG_PACKAGE_strongswan-mod-des=y
-# CONFIG_PACKAGE_strongswan-mod-dhcp is not set
-CONFIG_PACKAGE_strongswan-mod-dnskey=y
-# CONFIG_PACKAGE_strongswan-mod-drbg is not set
-# CONFIG_PACKAGE_strongswan-mod-duplicheck is not set
-# CONFIG_PACKAGE_strongswan-mod-eap-dynamic is not set
-CONFIG_PACKAGE_strongswan-mod-eap-identity=y
-# CONFIG_PACKAGE_strongswan-mod-eap-md5 is not set
-CONFIG_PACKAGE_strongswan-mod-eap-mschapv2=y
-# CONFIG_PACKAGE_strongswan-mod-eap-radius is not set
-# CONFIG_PACKAGE_strongswan-mod-eap-tls is not set
-# CONFIG_PACKAGE_strongswan-mod-farp is not set
-CONFIG_PACKAGE_strongswan-mod-fips-prf=y
-# CONFIG_PACKAGE_strongswan-mod-forecast is not set
-# CONFIG_PACKAGE_strongswan-mod-gcm is not set
-# CONFIG_PACKAGE_strongswan-mod-gcrypt is not set
-CONFIG_PACKAGE_strongswan-mod-gmp=y
-# CONFIG_PACKAGE_strongswan-mod-gmpdh is not set
-# CONFIG_PACKAGE_strongswan-mod-ha is not set
-CONFIG_PACKAGE_strongswan-mod-hmac=y
-CONFIG_PACKAGE_strongswan-mod-kdf=y
-# CONFIG_PACKAGE_strongswan-mod-kernel-libipsec is not set
-CONFIG_PACKAGE_strongswan-mod-kernel-netlink=y
-# CONFIG_PACKAGE_strongswan-mod-ldap is not set
-# CONFIG_PACKAGE_strongswan-mod-led is not set
-# CONFIG_PACKAGE_strongswan-mod-load-tester is not set
-CONFIG_PACKAGE_strongswan-mod-md4=y
-CONFIG_PACKAGE_strongswan-mod-md5=y
-CONFIG_PACKAGE_strongswan-mod-mgf1=y
-# CONFIG_PACKAGE_strongswan-mod-mysql is not set
-# CONFIG_PACKAGE_strongswan-mod-newhope is not set
-# CONFIG_PACKAGE_strongswan-mod-ntru is not set
-# CONFIG_PACKAGE_strongswan-mod-openssl is not set
-CONFIG_PACKAGE_strongswan-mod-pem=y
-CONFIG_PACKAGE_strongswan-mod-pgp=y
-CONFIG_PACKAGE_strongswan-mod-pkcs1=y
-# CONFIG_PACKAGE_strongswan-mod-pkcs11 is not set
-# CONFIG_PACKAGE_strongswan-mod-pkcs12 is not set
-# CONFIG_PACKAGE_strongswan-mod-pkcs7 is not set
-# CONFIG_PACKAGE_strongswan-mod-pkcs8 is not set
-CONFIG_PACKAGE_strongswan-mod-pubkey=y
-CONFIG_PACKAGE_strongswan-mod-random=y
-CONFIG_PACKAGE_strongswan-mod-rc2=y
-CONFIG_PACKAGE_strongswan-mod-resolve=y
-CONFIG_PACKAGE_strongswan-mod-revocation=y
-CONFIG_PACKAGE_strongswan-mod-sha1=y
-CONFIG_PACKAGE_strongswan-mod-sha2=y
-# CONFIG_PACKAGE_strongswan-mod-sha3 is not set
-# CONFIG_PACKAGE_strongswan-mod-smp is not set
-CONFIG_PACKAGE_strongswan-mod-socket-default=y
-# CONFIG_PACKAGE_strongswan-mod-socket-dynamic is not set
-# CONFIG_PACKAGE_strongswan-mod-sql is not set
-# CONFIG_PACKAGE_strongswan-mod-sqlite is not set
-CONFIG_PACKAGE_strongswan-mod-sshkey=y
-# CONFIG_PACKAGE_strongswan-mod-stroke is not set
-# CONFIG_PACKAGE_strongswan-mod-test-vectors is not set
-# CONFIG_PACKAGE_strongswan-mod-uci is not set
-# CONFIG_PACKAGE_strongswan-mod-unity is not set
-CONFIG_PACKAGE_strongswan-mod-updown=y
-CONFIG_PACKAGE_strongswan-mod-vici=y
-# CONFIG_PACKAGE_strongswan-mod-whitelist is not set
-# CONFIG_PACKAGE_strongswan-mod-wolfssl is not set
-CONFIG_PACKAGE_strongswan-mod-x509=y
-# CONFIG_PACKAGE_strongswan-mod-xauth-eap is not set
-CONFIG_PACKAGE_strongswan-mod-xauth-generic=y
-CONFIG_PACKAGE_strongswan-mod-xcbc=y
-CONFIG_PACKAGE_strongswan-swanctl=y
+# CONFIG_PACKAGE_strongswan is not set
 # CONFIG_PACKAGE_tailscale is not set
 # CONFIG_PACKAGE_tinc is not set
 # CONFIG_PACKAGE_uanytun is not set
@@ -7672,7 +7551,7 @@ CONFIG_PACKAGE_modemmanager=y
 CONFIG_MODEMMANAGER_WITH_MBIM=y
 CONFIG_MODEMMANAGER_WITH_QMI=y
 CONFIG_MODEMMANAGER_WITH_QRTR=y
-# CONFIG_MODEMMANAGER_WITH_AT_COMMAND_VIA_DBUS is not set
+CONFIG_MODEMMANAGER_WITH_AT_COMMAND_VIA_DBUS=y
 # end of Configuration
 
 # CONFIG_PACKAGE_modemmanager-rpcd is not set
