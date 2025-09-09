@@ -19,9 +19,9 @@ git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git ope
 cd openwrt; git checkout bc9f1cab83d09f91e28c7ca830de778b08bd2842; cd -;		#libxml2: Add abi version
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 939387af56de289422deb7196ab3be881aa807b9; cd -;	#Fix hostapd library recusive dependency
+cd mtk-openwrt-feeds; git checkout b1f8864239236ed941089859409a0c85e5cbfe80; cd -;	#Fix nand overlayfs
 
-echo "939387a" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "b1f8864" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 
 ### wireless-regdb modification - this remove all regdb wireless countries restrictions
