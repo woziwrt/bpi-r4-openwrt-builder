@@ -24,11 +24,6 @@ cd mtk-openwrt-feeds; git checkout 787f5039cce935b94b11b6120c4014ad65e0dbb9; cd 
 
 echo "787f503" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
-### comment this patch if you do not need crypto + strongswan
-\cp -r my_files/w-rules mtk-openwrt-feeds/autobuild/unified/filogic/rules
-
-### remove mtk strongswan uci support patch
-rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patch 
 
 ### wireless-regdb modification - this remove all regdb wireless countries restrictions
 #rm -rf openwrt/package/firmware/wireless-regdb/patches/*.*
