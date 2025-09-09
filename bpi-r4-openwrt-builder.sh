@@ -16,19 +16,13 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout b4b9288f2aa3dd1a759e5effbc8378f614bd5755; cd -;		#mac80211: Update to 6.12.44
+cd openwrt; git checkout bc9f1cab83d09f91e28c7ca830de778b08bd2842; cd -;		#libxml2: Add abi version
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 787f5039cce935b94b11b6120c4014ad65e0dbb9; cd -;	#[openwrt-24][mt7988][fitblk][Fix fitblk create fitrw dev]
+cd mtk-openwrt-feeds; git checkout 939387af56de289422deb7196ab3be881aa807b9; cd -;	#Fix hostapd library recusive dependency
 
+echo "939387a" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
-echo "787f503" > mtk-openwrt-feeds/autobuild/unified/feed_revision
-
-### comment this patch if you do not need crypto + strongswan
-\cp -r my_files/w-rules mtk-openwrt-feeds/autobuild/unified/filogic/rules
-
-### remove mtk strongswan uci support patch
-rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patch 
 
 ### wireless-regdb modification - this remove all regdb wireless countries restrictions
 #rm -rf openwrt/package/firmware/wireless-regdb/patches/*.*
@@ -66,8 +60,8 @@ exit 0
 #################
 
 cd openwrt
-## RC3_crypto config
-\cp -r ../configs/mm_config .config
+## RC4 config
+\cp -r ../configs/RC4_mm_config_without_crypto .config
 
 
 ###### Then you can add all required additional feeds/packages ######### 
