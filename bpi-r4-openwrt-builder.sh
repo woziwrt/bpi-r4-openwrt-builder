@@ -19,10 +19,9 @@ git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git ope
 cd openwrt; git checkout bc9f1cab83d09f91e28c7ca830de778b08bd2842; cd -;		#libxml2: Add abi version
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout b1f8864239236ed941089859409a0c85e5cbfe80; cd -;	#Fix nand overlayfs
+cd mtk-openwrt-feeds; git checkout 2784de8784ef91fa4ffa21336b6c50eb6aaa70e8; cd -;	#Final version for Filogic 880/860/850 20250909 MP4.2
 
-echo "b1f8864" > mtk-openwrt-feeds/autobuild/unified/feed_revision
-
+echo "2784de8" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 ### wireless-regdb modification - this remove all regdb wireless countries restrictions
 #rm -rf openwrt/package/firmware/wireless-regdb/patches/*.*
