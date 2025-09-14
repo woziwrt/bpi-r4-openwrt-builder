@@ -60,7 +60,7 @@ exit 0
 
 cd openwrt
 ## RC4 config
-\cp -r ../configs/RC4_mm_config_without_crypto .config
+\cp -r ../configs/bpi-r4_without_crypto_with_strongswan .config
 
 
 ###### Then you can add all required additional feeds/packages ######### 
