@@ -1,0 +1,11 @@
+
+config modemdata
+	option website 'www.btsearch.pl'
+	option btsaction 'download'
+	option repocheckinfo ''
+	option updtime '5'
+	list hide_data 'IMSI'
+	list hide_data 'IMEI'
+	list hide_data 'ICCID'
+	list hide_data 'Cell ID'
+	list hide_data 'Identyfikator komórki'

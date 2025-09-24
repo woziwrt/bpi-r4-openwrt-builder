@@ -64,24 +64,27 @@ exit 0
 #################
 
 cd openwrt
-## RC3_crypto config
-\cp -r ../configs/mm_config .config
+## RC4_crypto config
+#\cp -r ../configs/mm_config .config
 
 
 ###### Then you can add all required additional feeds/packages ######### 
 
-# qmi modems extension for example
+# qmi modems extension 
 \cp -r ../my_files/luci-app-3ginfo-lite-main/sms-tool/ feeds/packages/utils/sms-tool
 \cp -r ../my_files/luci-app-3ginfo-lite-main/luci-app-3ginfo-lite/ feeds/luci/applications
 \cp -r ../my_files/luci-app-modemband-main/luci-app-modemband/ feeds/luci/applications
 \cp -r ../my_files/luci-app-modemband-main/modemband/ feeds/packages/net/modemband
 \cp -r ../my_files/luci-app-at-socat/ feeds/luci/applications
+\cp -r ../my_files/luci-app-modemdata-main/luci-app-modemdata/ feeds/luci/applications
+\cp -r ../my_files/modemdata-main/ feeds/packages/utils/modemdata
+
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
 ####### And finally configure whatever you want ##########
-
+\cp -r ../configs/modem_ext.config .config
 make menuconfig
 make -j1 V=sc
 
