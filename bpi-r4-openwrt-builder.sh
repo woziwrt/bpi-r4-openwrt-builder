@@ -71,14 +71,14 @@ cd openwrt
 ###### Then you can add all required additional feeds/packages ######### 
 
 # qmi modems extension 
-\cp -r ../my_files/luci-app-3ginfo-lite-main/sms-tool/ feeds/packages/utils/sms-tool
-\cp -r ../my_files/luci-app-3ginfo-lite-main/luci-app-3ginfo-lite/ feeds/luci/applications
-\cp -r ../my_files/luci-app-modemband-main/luci-app-modemband/ feeds/luci/applications
-\cp -r ../my_files/luci-app-modemband-main/modemband/ feeds/packages/net/modemband
+#\cp -r ../my_files/luci-app-3ginfo-lite-main/sms-tool/ feeds/packages/utils/sms-tool
+#\cp -r ../my_files/luci-app-3ginfo-lite-main/luci-app-3ginfo-lite/ feeds/luci/applications
+#\cp -r ../my_files/luci-app-modemband-main/luci-app-modemband/ feeds/luci/applications
+#\cp -r ../my_files/luci-app-modemband-main/modemband/ feeds/packages/net/modemband
 \cp -r ../my_files/luci-app-at-socat/ feeds/luci/applications
 \cp -r ../my_files/luci-app-modemdata-main/luci-app-modemdata/ feeds/luci/applications
 \cp -r ../my_files/modemdata-main/ feeds/packages/utils/modemdata
-
+\cp -r ../my_files/luci-app-lite-watchdog/ feeds/luci/applications
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a
