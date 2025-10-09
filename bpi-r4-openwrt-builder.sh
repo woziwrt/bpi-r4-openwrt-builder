@@ -54,7 +54,6 @@ bash ../mtk-openwrt-feeds/autobuild/unified/autobuild.sh filogic-mac80211-mt7988
 
 exit 0
 
-
 ########### After successful end of build #############
 
 ## IMPORTANT NOTE !!!!!
@@ -67,21 +66,23 @@ cd openwrt
 ## RC4_crypto config
 #\cp -r ../configs/mm_config .config
 
-
 ###### Then you can add all required additional feeds/packages ######### 
 
-# qmi modems extension 
-#\cp -r ../my_files/luci-app-3ginfo-lite-main/sms-tool/ feeds/packages/utils/sms-tool
-#\cp -r ../my_files/luci-app-3ginfo-lite-main/luci-app-3ginfo-lite/ feeds/luci/applications
-#\cp -r ../my_files/luci-app-modemband-main/luci-app-modemband/ feeds/luci/applications
-#\cp -r ../my_files/luci-app-modemband-main/modemband/ feeds/packages/net/modemband
-\cp -r ../my_files/luci-app-at-socat/ feeds/luci/applications
+# Telit FN990 modem extension 
+\cp -r ../my_files/sms-tool/ feeds/packages/utils/sms-tool
+\cp -r ../my_files/modemdata-main/ feeds/packages/utils/modemdata 
 \cp -r ../my_files/luci-app-modemdata-main/luci-app-modemdata/ feeds/luci/applications
-\cp -r ../my_files/modemdata-main/ feeds/packages/utils/modemdata
 \cp -r ../my_files/luci-app-lite-watchdog/ feeds/luci/applications
+\cp -r ../my_files/luci-app-sms-tool-js-main/luci-app-sms-tool-js/ feeds/luci/applications
 
 ./scripts/feeds update -a
 ./scripts/feeds install -a
+
+\cp -r ../my_files/qmi.sh package/network/utils/uqmi/files/lib/netifd/proto/
+chmod -R 755 package/network/utils/uqmi/files/lib/netifd/proto
+chmod -R 755 feeds/luci/applications/luci-app-modemdata/root
+chmod -R 755 feeds/luci/applications/luci-app-sms-tool-js/root
+chmod -R 755 feeds/packages/utils/modemdata/files/usr/share
 
 ####### And finally configure whatever you want ##########
 \cp -r ../configs/modem_ext.config .config
