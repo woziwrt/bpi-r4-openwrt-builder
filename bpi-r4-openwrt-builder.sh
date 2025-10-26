@@ -16,12 +16,13 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout 6e068b7052cccadc7e3543ca6741ece26333097e; cd -;		#openssl: Update to version 3.0.18
+cd openwrt; git checkout 859ff7a978aea150588e7e21a1333884ab85739f; cd -;		#OpenWrt v24.10.4: revert to branch defaults
+
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout e3671871d4d979499d46030bb5032708efd00a61; cd -;	#Fix issue with attaching AQR 10G PHY
+cd mtk-openwrt-feeds; git checkout 60187042c718f690452b43190d15b381333f22ce; cd -;	#[openwrt-24.10][mt7988][dts][Add WiFi HW reset GPIO support in PCIE device tree]
 
-echo "e36718" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+echo "601870" > mtk-openwrt-feeds/autobuild/unified/feed_revision
 
 \cp -r my_files/w-rules mtk-openwrt-feeds/autobuild/unified/filogic/rules
 
@@ -34,9 +35,6 @@ rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patc
 #\cp -r my_files/500-tx_power.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/firmware/wireless-regdb/patches
 #\cp -r my_files/regdb.Makefile openwrt/package/firmware/wireless-regdb/Makefile
 
-### adds a frequency match check to ensure the noise value corresponds to the interface's actual frequency for multiple radios under a single wiphy
-#\cp -r my_files/200-wozi-libiwinfo-fix_noise_reading_for_radios.patch openwrt/package/network/utils/iwinfo/patches
-
 ### tx_power patch - required for BE14 boards with defective eeprom flash
 \cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
 
@@ -46,8 +44,6 @@ rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patc
 sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/defconfig
 sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/autobuild_5.4_mac80211_release/mt7988_wifi7_mac80211_mlo/.config
 sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' mtk-openwrt-feeds/autobuild/autobuild_5.4_mac80211_release/mt7986_mac80211/.config
-
-#\cp -r my_files/3703-6.6.103-remove-uci-duplicate-ports.patch mtk-openwrt-feeds/autobuild/unified/filogic/24.10/patches-base/
 
 cd openwrt
 bash ../mtk-openwrt-feeds/autobuild/unified/autobuild.sh filogic-mac80211-mt7988_rfb-mt7996 log_file=make
