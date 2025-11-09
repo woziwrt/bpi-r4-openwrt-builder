@@ -16,13 +16,10 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout 859ff7a978aea150588e7e21a1333884ab85739f; cd -;		#OpenWrt v24.10.4: revert to branch defaults
-
+cd openwrt; git checkout a38b0c94dd02a03ab14f55bc98b2aa24561aed5a; cd -;		#tools/ccache: same behaviour for local and CI builds
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 60187042c718f690452b43190d15b381333f22ce; cd -;	#[openwrt-24.10][mt7988][dts][Add WiFi HW reset GPIO support in PCIE device tree]
-
-echo "601870" > mtk-openwrt-feeds/autobuild/unified/feed_revision
+cd mtk-openwrt-feeds; git checkout 1952d51abe1acc6ba61624921c476e330f3f18e5; cd -;	#[openwrt-master][common][upgrade OpenWrt master SDK version]
 
 \cp -r my_files/w-rules mtk-openwrt-feeds/autobuild/unified/filogic/rules
 

@@ -1,6 +1,6 @@
 list_add_after $(hooks autobuild_prepare) platform_change_kernel_config filogic_change_kernel_config
-list_add_after $(hooks autobuild_prepare) copy_global_files copy_optee_files
 list_append $(hooks autobuild_prepare) airoha_firmware_install
+list_add_after $(hooks autobuild_prepare) airoha_firmware_install copy_phy_firmware
 
 # remove crypto packages to prevent warning caused by package dependency
 if [ -z ${internal_build} ]; then
@@ -8,7 +8,11 @@ if [ -z ${internal_build} ]; then
 fi
 
 if test x"${hqa_set}" == x"yes"; then
-	list_add_after $(hooks autobuild_prepare) apply_global_patches apply_hqa_patches
+	. "${ab_global}/hqa.sh"
+fi
+
+if test x"${bootloader_set}" == x"yes"; then
+	. "${ab_global}/bootloader.sh"
 fi
 
 if test x"${optee}" == x"yes"; then
@@ -22,6 +26,7 @@ fi
 
 help_add_line "  hqa - Enable HQA test support."
 help_add_line "  optee - Enable optee"
+help_add_line "  bootloader - Enable build BL2/FIP from github release"
 help_add_line "  secure_boot - Enable secure_boot, including signing, anti-rollback and firmware encryption"
 
 platform_change_openwrt_config() {
@@ -33,8 +38,8 @@ platform_change_openwrt_config() {
 }
 
 filogic_change_kernel_config() {
-	kernel_config_enable CONFIG_EXTRA_FIRMWARE "\"airoha/EthMD32.dm.bin airoha/EthMD32.DSP.bin\""
-	kernel_config_enable CONFIG_EXTRA_FIRMWARE_DIR "\"../../linux-firmware-20241110/\""
+	kernel_config_enable CONFIG_EXTRA_FIRMWARE "\"airoha/EthMD32.dm.bin airoha/EthMD32.DSP.bin as21x1x_fw.bin Rhe-05.06-Candidate9-AQR_Mediatek_23B_P5_ID45824_LCLVER1.cld AQR-G4_v5.7.0-AQR_EVB_Generic_X3410_StdCfg_MDISwap_USX_ID46316_VER2148.cld\""
+	kernel_config_enable CONFIG_EXTRA_FIRMWARE_DIR "\"../../../../staging_dir/firmware\""
 	kernel_config_enable CONFIG_AIR_EN8811H_PHY
 	kernel_config_enable CONFIG_AIR_EN8811H_PHY_DEBUGFS
 	kernel_config_enable CONFIG_MT753X_GSW
@@ -51,6 +56,10 @@ filogic_change_kernel_config() {
 	kernel_config_disable CONFIG_MEDIATEK_NETSYS_V2
 	kernel_config_disable CONFIG_MEDIATEK_NETSYS_V3
 	kernel_config_enable CONFIG_PTP_1588_CLOCK
+	kernel_config_enable CONFIG_AS21XXX_PHY
+	kernel_config_enable CONFIG_AQUANTIA_PHY
+	kernel_config_enable CONFIG_AIROHA_AN8801_PHY
+	kernel_config_enable CONFIG_MTK_DEVAPC
 }
 
 platform_enable_optee_config() {
@@ -91,18 +100,23 @@ platform_enable_security_config() {
 	openwrt_config_enable CONFIG_MTK_FW_ENC
 }
 
-apply_hqa_patches() {
-	apply_patches "filogic/${openwrt_branch}/extra-data/hqa_patches" || return 1
-}
-
-copy_optee_files() {
-	copy_files "${openwrt_root}/../optee/optee_plat_mtk" "package/mtk/optee-mediatek/src/optee_plat_mtk"
-	copy_files "${openwrt_root}/../optee/optee_apps" "package/mtk/optee-mediatek/src/optee_apps"
-	copy_files "${openwrt_root}/../optee/optee_test_mtk" "package/mtk/optee-mediatek/src/optee_test_mtk"
-}
-
 airoha_firmware_install() {
-	exec_log "make -C \"${openwrt_root}\" V=s package/firmware/linux-firmware/{download,clean,prepare}"
+	if test x"${internal_sync_set}" != x"yes"; then
+		exec_log "make -C \"${openwrt_root}\" V=s package/firmware/linux-firmware/{download,clean,prepare}"
+	fi
+}
+
+copy_phy_firmware() {
+	if test x"${internal_sync_set}" != x"yes"; then
+		# ensure the PHY firmware is located in the same directory when compiling the kernel's built-in PHY driver
+		copy_file "${openwrt_root}/package/kernel/as21xxx/firmware/as21x1x_fw.bin" "staging_dir/firmware"
+		copy_file "${openwrt_root}/package/kernel/aqr10g-phy-fw/files/Rhe-05.06-Candidate9-AQR_Mediatek_23B_P5_ID45824_LCLVER1.cld" "staging_dir/firmware"
+		copy_file "${openwrt_root}/package/kernel/aqr10g-phy-fw/files/AQR-G4_v5.7.0-AQR_EVB_Generic_X3410_StdCfg_MDISwap_USX_ID46316_VER2148.cld" "staging_dir/firmware"
+
+		# copy linux firmware
+		linux_firmware_path=$(openwrt_get_package_build_dir "package/firmware/linux-firmware")
+		copy_files "${linux_firmware_path}/airoha" "staging_dir/firmware/airoha"
+	fi
 }
 
 remove_crypto_package () {
