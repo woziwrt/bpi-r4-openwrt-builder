@@ -16,10 +16,10 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout a38b0c94dd02a03ab14f55bc98b2aa24561aed5a; cd -;		#tools/ccache: same behaviour for local and CI builds
+cd openwrt; git checkout dddeea5e7ff5db16cf3dc513f8d5c8ca27c65fa6; cd -;		#scripts: feeds: Don’t hardcode IS_TTY
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout 1952d51abe1acc6ba61624921c476e330f3f18e5; cd -;	#[openwrt-master][common][upgrade OpenWrt master SDK version]
+cd mtk-openwrt-feeds; git checkout dde978f6228f2e3761377559b0762d1421ae6c29; cd -;	#[kernel-6.6][common][i2c][fix zts8232 driver callbacks]
 
 \cp -r my_files/w-rules mtk-openwrt-feeds/autobuild/unified/filogic/rules
 
@@ -57,7 +57,7 @@ exit 0
 
 ###### Then you can add all required additional feeds/packages ######### 
 
-# Telit FN990 modem extension
+### Telit FN990 modem extension
  
 cd openwrt
 \cp -r ../my_files/sms-tool/ feeds/packages/utils/sms-tool

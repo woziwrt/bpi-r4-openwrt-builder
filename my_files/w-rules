@@ -60,6 +60,9 @@ filogic_change_kernel_config() {
 	kernel_config_enable CONFIG_AQUANTIA_PHY
 	kernel_config_enable CONFIG_AIROHA_AN8801_PHY
 	kernel_config_enable CONFIG_MTK_DEVAPC
+	kernel_config_enable CONFIG_IIO
+	kernel_config_disable CONFIG_ZTS8032
+	kernel_config_enable CONFIG_ZTS8232
 }
 
 platform_enable_optee_config() {
