@@ -16,10 +16,10 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout dddeea5e7ff5db16cf3dc513f8d5c8ca27c65fa6; cd -;		#scripts: feeds: Don’t hardcode IS_TTY
+cd openwrt; git checkout 444299d70c12eb6b8543f990a62fbdd764798771; cd -;		#kernel: backport mediatek WED DMA mask fixes
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout dde978f6228f2e3761377559b0762d1421ae6c29; cd -;	#[kernel-6.6][common][i2c][fix zts8232 driver callbacks]
+cd mtk-openwrt-feeds; git checkout b65226d58ec5dc743de69c481745ef03188c4885; cd -;	#[openwrt-master][common][u-boot][Add mt7981 and mt7986 U-boot support]
 
 \cp -r my_files/w-rules mtk-openwrt-feeds/autobuild/unified/filogic/rules
 
@@ -49,13 +49,11 @@ exit 0
 
 ########### After successful end of build #############
 
-## IMPORTANT NOTE !!!!!
-## Do not change Target Profile from Multiple devices to other  !!!
-## Do not remove MediaTek MT7988A rfb and MediaTek MT7988D rfb from Target Devices !!! 
+\cp -r ../configs/config.mm .config
+make menuconfig
+make V=s -j$(nproc)
 
-#################
 
-###### Then you can add all required additional feeds/packages ######### 
 
 ### Telit FN990 modem extension
  
