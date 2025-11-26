@@ -24,7 +24,6 @@ FEED_DIR="$SOURCES_DIR/my_feed"
 GIT_DIR="$SOURCES_DIR/git"
 
 repos=(
-    "https://git.openwrt.org/openwrt/openwrt.git $WORK_DIR $OPENWRT_BRANCH $OPENWRT_COMMIT"
     "https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds $MTK_WORK_DIR '' $MTK_COMMIT"
     "https://github.com/4IceG/luci-app-sms-tool-js.git luci-app-sms-tool-js"
     "https://github.com/4IceG/luci-app-lite-watchdog.git luci-app-lite-watchdog"
@@ -117,12 +116,11 @@ copy_dir() {
 if [ ! -d "$SOURCES_DIR" ]; then
     mkdir -p "$SOURCES_DIR"
 fi
-if [ ! -d "$FEED_DIR" ]; then
-    mkdir -p "$FEED_DIR"
-fi
 if [ ! -d "$GIT_DIR" ]; then
     mkdir -p "$GIT_DIR"
 fi
+rm -rf "$FEED_DIR"
+mkdir -p "$FEED_DIR"
 
 # Clone or check repos
 for repo in "${repos[@]}"; do
@@ -136,16 +134,22 @@ copy_dir "$GIT_DIR/$MTK_WORK_DIR" "$MTK_WORK_DIR"
 # Copy packages
 for rule in "${copy_rules[@]}"; do
     set -- $rule
-	copy_dir "$GIT_DIR/$1" "$FEED_DIR/$2"
+	\cp -r "$GIT_DIR/$1" "$FEED_DIR/$2"
 done
 
 if [ ! -d "$GIT_DIR/$WORK_DIR/dl" ]; then
-    mkdir -p "$WORK_DIR/dl"
+    mkdir -p $BASE_DIR/$GIT_DIR/$WORK_DIR/dl
+	echo "mkdir -p $BASE_DIR/$GIT_DIR/$WORK_DIR/dl"
 fi
 if [ -d "$WORK_DIR/dl" ]; then
-    rm -rf "$WORK_DIR/dl"
+    rm -rf $WORK_DIR/dl
+	echo "rm -rf $WORK_DIR/dl"
 fi
+
 ln -s $BASE_DIR/$GIT_DIR/$WORK_DIR/dl $BASE_DIR/$WORK_DIR/dl
+echo "ln -s $BASE_DIR/$GIT_DIR/$WORK_DIR/dl $BASE_DIR/$WORK_DIR/dl"
+# ln -s $BASE_DIR/$GIT_DIR/$WORK_DIR/feeds $BASE_DIR/$WORK_DIR/feeds
+# echo "ln -s $BASE_DIR/$GIT_DIR/$WORK_DIR/feeds $BASE_DIR/$WORK_DIR/feeds"
 
 \cp -r my_files/w-rules $MTK_WORK_DIR/autobuild/unified/filogic/rules
 
@@ -169,6 +173,7 @@ sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' $MTK_WORK_DIR
 sed -i 's/CONFIG_PACKAGE_perf=y/# CONFIG_PACKAGE_perf is not set/' $MTK_WORK_DIR/autobuild/autobuild_5.4_mac80211_release/mt7986_mac80211/.config
 
 cd $WORK_DIR
+bash ../$MTK_WORK_DIR/autobuild/unified/autobuild.sh clean
 bash ../$MTK_WORK_DIR/autobuild/unified/autobuild.sh filogic-mac80211-mt7988_rfb-mt7996 log_file=make
 
 exit 0
@@ -185,7 +190,7 @@ make V=s -j$(nproc)
  
 cd $WORK_DIR
 FEED_CONF="$BASE_DIR/$WORK_DIR/feeds.conf.default"
-FEED_LINE="src-link $BASE_DIR/$FEED_DIR"
+FEED_LINE="src-link my_feed $BASE_DIR/$FEED_DIR"
 
 # Check line if it exists
 if ! grep -Fxq "$FEED_LINE" "$FEED_CONF"; then
@@ -195,12 +200,20 @@ fi
 ./scripts/feeds update -a
 ./scripts/feeds install -a
 
-\cp -r ../my_files/qmi.sh package/network/utils/uqmi/files/lib/netifd/proto/
-chmod -R 755 package/network/utils/uqmi/files/lib/netifd/proto
+rm -rf $BASE_DIR/$WORK_DIR/files
+mkdir -p $BASE_DIR/$WORK_DIR/files
+\cp -r $BASE_DIR/my_files/files/* $BASE_DIR/$WORK_DIR/files/
+
+\cp -r $BASE_DIR/my_files/qmi.sh $BASE_DIR/$WORK_DIR/package/network/utils/uqmi/files/lib/netifd/proto/
+chmod -R 755 $BASE_DIR/$WORK_DIR/package/network/utils/uqmi/files/lib/netifd/proto
 
 ####### And finally configure whatever you want ##########
 
-\cp -r ../configs/modem_ext.config .config
+rm -rf $BASE_DIR/$WORK_DIR/files
+mkdir -p $BASE_DIR/$WORK_DIR/files
+\cp -r $BASE_DIR/my_files/files/* $BASE_DIR/$WORK_DIR/files/
+
+\cp -r $BASE_DIR/configs/modem_ext.config $BASE_DIR/$WORK_DIR/.config
 make menuconfig
 make V=s -j$(nproc)
 
