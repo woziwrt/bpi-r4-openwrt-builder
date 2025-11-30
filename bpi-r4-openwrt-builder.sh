@@ -41,6 +41,16 @@ copy_rules=(
 
 export XZ_DEFAULTS="--memlimit=12GiB"
 
+# Add packages from workflow input to enable_y.txt
+if [[ -n "$ADD_ENABLE_Y" ]]; then
+    echo "$ADD_ENABLE_Y" | tr ',' '\n' >> "$Y_LIST"
+fi
+
+# Add packages from workflow input to enable_m.txt
+if [[ -n "$ADD_ENABLE_M" ]]; then
+    echo "$ADD_ENABLE_M" | tr ',' '\n' >> "$M_LIST"
+fi
+
 # Create 'extra_repos.txt' file to add you own repos. Do not forget \n at the end
 if [ -f "$REPO_LIST" ]; then
     while IFS= read -r line; do
