@@ -1,0 +1,5 @@
+luci-app-samba4
+luci-app-pbr
+luci-app-dockerman
+luci-app-adblock
+mihomo
