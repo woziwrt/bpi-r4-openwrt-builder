@@ -10,15 +10,9 @@ kmod-ipt-physdev
 kmod-nf-ipvs
 kmod-nft-tproxy
 kmod-nvme
-luci-proto-amneziawg
 amneziawg-tools
-app-temp-status
+luci-proto-amneziawg
+luci-app-temp-status
 luci-app-upnp
-luci-app-ssclash
 luci-theme-argon
 luci-theme-aurora
-luci-app-zapret
-zapret
-zapret-tpws
-zapret-mdig
-zapret-ip2net

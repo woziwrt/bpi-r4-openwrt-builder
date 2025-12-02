@@ -1,5 +1,13 @@
-luci-app-samba4
-luci-app-pbr
-luci-app-dockerman
-luci-app-adblock
+modemdata
+sms_tool
 mihomo
+luci-app-pbr
+luci-app-lite-watchdog
+luci-app-modemdata
+luci-app-sms-tool-js
+luci-app-ssclash
+luci-app-zapret
+zapret
+zapret-tpws
+zapret-mdig
+zapret-ip2net
