@@ -1,0 +1,13 @@
+https://github.com/4IceG/luci-app-sms-tool-js.git luci-app-sms-tool-js
+https://github.com/4IceG/luci-app-lite-watchdog.git luci-app-lite-watchdog
+https://github.com/obsy/sms_tool.git sms_tool
+https://github.com/obsy/modemdata.git modemdata
+https://github.com/4IceG/luci-app-modemdata.git luci-app-modemdata
+https://github.com/Thaolga/openwrt-nekobox openwrt-nekobox
+https://github.com/remittor/zapret-openwrt.git zapret-openwrt
+https://github.com/Slava-Shchipunov/awg-openwrt.git awg-openwrt
+https://github.com/zerolabnet/SSClash.git ssclash
+https://github.com/gSpotx2f/luci-app-temp-status.git luci-app-temp-status
+https://github.com/eamonxg/luci-theme-aurora luci-theme-aurora
+https://github.com/jerrykuku/luci-theme-argon luci-theme-argon
+https://github.com/douglarek/mihomo-openwrt.git mihomo-openwrt
