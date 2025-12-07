@@ -24,11 +24,13 @@ jobs:
 
       - name: Update & install feeds
         run: |
+          cd openwrt
           ./scripts/feeds update -a
           ./scripts/feeds install -a
 
       - name: Use existing .config and defconfig
         run: |
+          cd openwrt
           if [ ! -f .config ]; then
             echo "ERROR: .config is missing in repo" >&2
             exit 1
@@ -37,11 +39,13 @@ jobs:
 
       - name: Build firmware
         run: |
+          cd openwrt
           make -j$(nproc) V=s
 
       - name: List built images
         if: always()
         run: |
+          cd openwrt
           ls -R bin/targets || true
 
       - name: Upload firmware artifacts
