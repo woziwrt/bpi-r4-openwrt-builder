@@ -22,35 +22,19 @@ jobs:
       - name: Show disk space
         run: df -h
 
-      - name: Update & install feeds
+      - name: Run builder script
         run: |
-          cd openwrt
-          ./scripts/feeds update -a
-          ./scripts/feeds install -a
-
-      - name: Use existing .config and defconfig
-        run: |
-          cd openwrt
-          if [ ! -f .config ]; then
-            echo "ERROR: .config is missing in repo" >&2
-            exit 1
-          fi
-          make defconfig
-
-      - name: Build firmware
-        run: |
-          cd openwrt
-          make -j$(nproc) V=s
+          chmod +x ./bpi-r4-openwrt-builder.sh
+          ./bpi-r4-openwrt-builder.sh
 
       - name: List built images
         if: always()
         run: |
-          cd openwrt
-          ls -R bin/targets || true
+          ls -R openwrt/bin/targets || true
 
       - name: Upload firmware artifacts
         if: success()
         uses: actions/upload-artifact@v4
         with:
           name: openwrt-bpi-r4-6.6-images
-          path: bin/targets/mediatek/filogic/
+          path: openwrt/bin/targets/mediatek/filogic/
