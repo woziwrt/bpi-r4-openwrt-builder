@@ -16,10 +16,10 @@ rm -rf openwrt
 rm -rf mtk-openwrt-feeds
 
 git clone --branch openwrt-24.10 https://git.openwrt.org/openwrt/openwrt.git openwrt || true
-cd openwrt; git checkout 444299d70c12eb6b8543f990a62fbdd764798771; cd -;		#kernel: backport mediatek WED DMA mask fixes
+cd openwrt; git checkout 4919ffd4f715fb31efd3e5aa28571e873200d03a; cd -;		#OpenWrt v24.10.5: revert to branch defaults
 
 git clone  https://git01.mediatek.com/openwrt/feeds/mtk-openwrt-feeds || true
-cd mtk-openwrt-feeds; git checkout b65226d58ec5dc743de69c481745ef03188c4885; cd -;	#[openwrt-master][common][u-boot][Add mt7981 and mt7986 U-boot support]
+cd mtk-openwrt-feeds; git checkout 3747c014db64984ba4a84d09c02666fad1d3a307; cd -;	#[openwrt-25][MAC80211][hnat][Add mxl862 switch dsa tag 8021q flow offload support]
 
 \cp -r my_files/w-rules mtk-openwrt-feeds/autobuild/unified/filogic/rules
 
@@ -31,6 +31,9 @@ rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patc
 #rm -rf mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/firmware/wireless-regdb/patches/*.*
 #\cp -r my_files/500-tx_power.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/firmware/wireless-regdb/patches
 #\cp -r my_files/regdb.Makefile openwrt/package/firmware/wireless-regdb/Makefile
+
+### adds a frequency match check to ensure the noise value corresponds to the interface's actual frequency for multiple radios under a single wiphy
+\cp -r my_files/200-wozi-libiwinfo-fix_noise_reading_for_radios.patch openwrt/package/network/utils/iwinfo/patches
 
 ### tx_power patch - required for BE14 boards with defective eeprom flash
 \cp -r my_files/99999_tx_power_check.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/kernel/mt76/patches/
@@ -49,9 +52,9 @@ exit 0
 
 ########### After successful end of build #############
 
-\cp -r ../configs/config.mm .config
+\cp -r ../configs/config.rc7.mm .config
 make menuconfig
-make V=s -j$(nproc)
+make -j$(nproc) V=s
 
 
 

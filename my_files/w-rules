@@ -5,6 +5,8 @@ list_add_after $(hooks autobuild_prepare) airoha_firmware_install copy_phy_firmw
 # remove crypto packages to prevent warning caused by package dependency
 if [ -z ${internal_build} ]; then
 	list_prepend $(hooks autobuild_prepare) remove_crypto_package
+else
+	. "${ab_root}/global-dev/internal.sh"
 fi
 
 if test x"${hqa_set}" == x"yes"; then
@@ -38,7 +40,18 @@ platform_change_openwrt_config() {
 }
 
 filogic_change_kernel_config() {
-	kernel_config_enable CONFIG_EXTRA_FIRMWARE "\"airoha/EthMD32.dm.bin airoha/EthMD32.DSP.bin as21x1x_fw.bin Rhe-05.06-Candidate9-AQR_Mediatek_23B_P5_ID45824_LCLVER1.cld AQR-G4_v5.7.0-AQR_EVB_Generic_X3410_StdCfg_MDISwap_USX_ID46316_VER2148.cld\""
+	# Base configs
+	kernel_config_enable CONFIG_COMMON_CLK_MT7987
+	kernel_config_enable CONFIG_PINCTRL_MT7987
+	kernel_config_enable CONFIG_HOTPLUG_CPU
+	kernel_config_enable CONFIG_MT753X_GSW
+	kernel_config_disable CONFIG_CPU_FREQ_DEFAULT_GOV_USERSPACE
+	kernel_config_enable CONFIG_CPU_FREQ_DEFAULT_GOV_PERFORMANCE
+	kernel_config_disable CONFIG_PCIEASPM_PERFORMANCE
+	kernel_config_enable CONFIG_PCIEASPM_POWER_SUPERSAVE
+
+	# APSoC related configs
+	kernel_config_enable CONFIG_EXTRA_FIRMWARE "\"airoha/EthMD32.dm.bin airoha/EthMD32.DSP.bin as21x1x_fw.bin Rhe-05.06-Candidate9-AQR_Mediatek_23B_P5_ID45824_LCLVER1.cld AQR-G4_v5.7.0-AQR_EVB_Generic_X3410_StdCfg_MDISwap_USX_ID46316_VER2148.cld airoha/an8811hb/EthMD32_CRC.DM.bin airoha/an8811hb/EthMD32_CRC.DSP.bin\""
 	kernel_config_enable CONFIG_EXTRA_FIRMWARE_DIR "\"../../../../staging_dir/firmware\""
 	kernel_config_enable CONFIG_AIR_EN8811H_PHY
 	kernel_config_enable CONFIG_AIR_EN8811H_PHY_DEBUGFS
@@ -59,6 +72,8 @@ filogic_change_kernel_config() {
 	kernel_config_enable CONFIG_AS21XXX_PHY
 	kernel_config_enable CONFIG_AQUANTIA_PHY
 	kernel_config_enable CONFIG_AIROHA_AN8801_PHY
+	kernel_config_enable CONFIG_AIR_AN8811HB_PHY
+	kernel_config_enable CONFIG_AIR_AN8811HB_PHY_DEBUGFS
 	kernel_config_enable CONFIG_MTK_DEVAPC
 	kernel_config_enable CONFIG_IIO
 	kernel_config_disable CONFIG_ZTS8032
@@ -115,6 +130,8 @@ copy_phy_firmware() {
 		copy_file "${openwrt_root}/package/kernel/as21xxx/firmware/as21x1x_fw.bin" "staging_dir/firmware"
 		copy_file "${openwrt_root}/package/kernel/aqr10g-phy-fw/files/Rhe-05.06-Candidate9-AQR_Mediatek_23B_P5_ID45824_LCLVER1.cld" "staging_dir/firmware"
 		copy_file "${openwrt_root}/package/kernel/aqr10g-phy-fw/files/AQR-G4_v5.7.0-AQR_EVB_Generic_X3410_StdCfg_MDISwap_USX_ID46316_VER2148.cld" "staging_dir/firmware"
+		copy_file "${openwrt_root}/package/kernel/airoha-phy-fw/files/an8811hb/EthMD32_CRC.DM.bin" "staging_dir/firmware/airoha/an8811hb"
+		copy_file "${openwrt_root}/package/kernel/airoha-phy-fw/files/an8811hb/EthMD32_CRC.DSP.bin" "staging_dir/firmware/airoha/an8811hb"
 
 		# copy linux firmware
 		linux_firmware_path=$(openwrt_get_package_build_dir "package/firmware/linux-firmware")
