@@ -16,6 +16,8 @@ cd mtk-openwrt-feeds; git checkout e39de5680a2e945a6d420e9f9f95cef8d4f99506; cd 
 #\cp -r my_files/500-tx_power.patch mtk-openwrt-feeds/autobuild/unified/filogic/mac80211/24.10/files/package/firmware/wireless-regdb/patches
 #\cp -r my_files/regdb.Makefile openwrt/package/firmware/wireless-regdb/Makefile
 
+rm -rf mtk-openwrt-feeds/24.10/patches-feeds/108-strongswan-add-uci-support.patch
+
 \cp -r my_files/9999-sfp-10-additional-quirks.patch mtk-openwrt-feeds/24.10/files/target/linux/mediatek/patches-6.6
 
 ### tx_power patch - required for BE14 boards with defective eeprom flash
