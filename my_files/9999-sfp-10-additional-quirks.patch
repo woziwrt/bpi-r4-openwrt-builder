@@ -1,0 +1,17 @@
+--- a/drivers/net/phy/sfp.c
++++ b/drivers/net/phy/sfp.c
+@@ -497,6 +497,14 @@
+ 	SFP_QUIRK("FS", "GPON-ONU-34-20BI", sfp_quirk_2500basex,
+ 		  sfp_fixup_ignore_tx_fault),
+ 
++	//Zaram ZXOS11NPI XGS-PON module (SFP+)
++	SFP_QUIRK_F("Zaram","ZXOS11NPI", sfp_fixup_ignore_tx_fault),
++	//HSGQ NU-STICK1.0 XGS-PON module (SFP+)
++	SFP_QUIRK_F("HSGQ","NU-STICK1.0", sfp_fixup_halny_gsfp),
++	//OEM XGSPONST2001 XGS-PON module (SFP+)
++	SFP_QUIRK_F("OEM","XGSPONST2001", sfp_fixup_halny_gsfp),
++	SFP_QUIRK_F("OEM","XGSPONST2000" , sfp_fixup_halny_gsfp),
++
+ 	SFP_QUIRK_F("HALNy", "HL-GSFP", sfp_fixup_halny_gsfp),
+ 
+ 	// HG MXPD-483II-F 2.5G supports 2500Base-X, but incorrectly reports
