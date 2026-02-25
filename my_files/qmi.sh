@@ -87,6 +87,10 @@ proto_qmi_setup() {
 		/sbin/ip link set dev $ifname mtu $mtu
 	}
 
+	# Cold boot delay for modem initialization
+	echo "Waiting for modem initialization"
+	sleep 20
+
 	echo "Waiting for SIM initialization"
 	local uninitialized_timeout=0
 	# timeout 3s for first call to avoid hanging uqmi
