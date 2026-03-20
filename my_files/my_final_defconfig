@@ -345,6 +345,7 @@ CONFIG_PACKAGE_luci-proto-qmi=y
 CONFIG_PACKAGE_luci-proto-relay=y
 CONFIG_PACKAGE_luci-proto-wireguard=y
 CONFIG_PACKAGE_luci-theme-bootstrap=y
+CONFIG_PACKAGE_luci-i18n-base-ru=y
 CONFIG_PACKAGE_mbim-utils=y
 CONFIG_PACKAGE_micrond=y
 CONFIG_PACKAGE_mii_mgr=y
