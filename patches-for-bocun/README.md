@@ -76,10 +76,3 @@ Across all of it: `rx_errors=0`, `tx_errors=0`, **no "GMAC Rx hang"**, **no
 Throughput is only shown at 1 Gbit/s (`948 Mbit/s`, iperf3, 4 streams) because
 every link partner available here is 1G — the 10G side is a switch with no 10G
 host behind it.
-
-### One case we deliberately do not chase
-
-**Runtime 10G → 1G** — swapping the copper cable *down* while running. It was
-flaky when last measured (PCS in-band 1000BASE-X decode), and we decided it is
-not worth fixing: nobody swaps cable speeds on a live link. Noted here so no one
-spends time on it.
