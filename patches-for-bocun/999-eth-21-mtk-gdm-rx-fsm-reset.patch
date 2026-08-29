@@ -1,0 +1,22 @@
+--- a/drivers/net/ethernet/mediatek/mtk_eth_soc.c
++++ b/drivers/net/ethernet/mediatek/mtk_eth_soc.c
+@@ -1136,6 +1136,19 @@
+ 	u32 mcr;
+ 
+ 	mcr = mtk_r32(mac->hw, MTK_MAC_MCR(mac->id));
++
++	/* Reset the Rx datapath before (re-)enabling Rx. When this MAC was
++	 * previously running a 10G (XGMAC) interface and is now brought up as
++	 * SGMII/1000BASE-X (e.g. a media-converter copper SFP+ module that
++	 * changes its advertised speed), the GMAC Rx FSM can be left stuck
++	 * (MAC_FSM Rx field != idle), wedging Rx DMA and reported as
++	 * "GMAC Rx hang". A physical SerDes signal loss clears this; replicate
++	 * it by pulsing the Rx FIFO clear so the Rx datapath restarts clean.
++	 */
++	mtk_w32(mac->hw, mcr & ~MAC_MCR_RX_FIFO_CLR_DIS, MTK_MAC_MCR(mac->id));
++	usleep_range(10, 20);
++	mtk_w32(mac->hw, mcr | MAC_MCR_RX_FIFO_CLR_DIS, MTK_MAC_MCR(mac->id));
++
+ 	mcr &= ~(MAC_MCR_SPEED_100 | MAC_MCR_SPEED_1000 |
+ 		 MAC_MCR_EEE100M | MAC_MCR_EEE1G |
+ 		 MAC_MCR_FORCE_DPX | MAC_MCR_FORCE_TX_FC |
