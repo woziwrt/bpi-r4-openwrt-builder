@@ -76,3 +76,24 @@ Across all of it: `rx_errors=0`, `tx_errors=0`, **no "GMAC Rx hang"**, **no
 Throughput is only shown at 1 Gbit/s (`948 Mbit/s`, iperf3, 4 streams) because
 every link partner available here is 1G — the 10G side is a switch with no 10G
 host behind it.
+
+---
+
+# Unrelated: aqr113c MIB thread lifetime
+
+Added 2026-09-01, after the thread *"aqr113c MIB thread panics the board when the
+PHY goes away"*. It has nothing to do with the SFP set above — different driver,
+different failure — and applies on top of
+`999-ephy-aqr113c-04-add-mib-debugfs.patch` in mtk-openwrt-feeds.
+
+| file | what it does |
+|---|---|
+| `999-ephy-zz-01-fix-aqr-mib-thread-lifetime.patch` | adds the `.remove` handler `aqr107_probe()` never had, so `kthread_stop()` is finally called; also closes two leaks in the same path (`debugfs_remove()` on the file that holds `phydev`, and the `dput()` that `debugfs_lookup()` requires) |
+
+`aqr107_mib_thread` dereferences the `phy_device` once a second and nothing ever
+stopped it, so removing an AQR113C module from a running cage panicked the board
+every time (BPI-R4, 6.12.103). With the patch the same action logs only
+`module removed` / `Link is Down` and the board stays up — verified three times
+in a row on the same boot.
+
+`aqr107_probe()` is shared by 14 PHY drivers, so all of them need the handler.
